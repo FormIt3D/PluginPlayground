@@ -98,7 +98,14 @@ class PreviewModule{
     }
 
     login(){
-        const clientId = '697e57494c9b5227b28c';
+        let clientId;
+        
+        if (window.location.host.indexOf("localhost") > -1){
+            clientId = '697e57494c9b5227b28c';
+        }else{
+            clientId = 'd7db57b667627e47026a';
+        }
+
         const url = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
 
         if (window.location.href.indexOf("?Web")  > -1){
