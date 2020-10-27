@@ -186,7 +186,7 @@ class GithubControls extends React.Component {
             [
                 createRepo,
                 dropdown,
-                controls,
+                this.state.currentlyLoadedRepo ? controls : null,
             ]
         );
     }

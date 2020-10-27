@@ -106,7 +106,7 @@ class PreviewModule{
             clientId = 'd7db57b667627e47026a';
         }
 
-        const url = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
+        const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo`;
 
         if (window.location.href.indexOf("?Web")  > -1){
             const loginWindow = window.open(url, 'Login to GitHub', "height=650,width=360");
