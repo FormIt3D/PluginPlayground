@@ -106,6 +106,10 @@ h1.title {
     padding:5px;
 }
 
+#RefreshReposButton{
+    margin-left: 20px;
+}
+
 .dropdown-item:hover{
     background-color: aliceblue;
     cursor:pointer;

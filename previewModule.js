@@ -13,6 +13,8 @@ class PreviewModule{
         this.currentlyLoadedRepoData = undefined;
 
         this.renderMainControls();
+
+        this.currentUsername;
     }
 
     compileAndRun(){
@@ -82,6 +84,8 @@ class PreviewModule{
         if (access_token){
             document.getElementById('GithubRoot').style.display = "block";
             user = await this.getUserData(access_token);
+
+            this.currentUsername = user.data.login;
             this.discoverRepos(user);
         }else{
             document.getElementById('GithubRoot').style.display = "none";
@@ -158,6 +162,7 @@ class PreviewModule{
             loadRepository: this.loadRepository.bind(this),
             saveToRepository: this.saveToRepository.bind(this),
             refreshRepository: this.refreshRepository.bind(this),
+            refreshReposList: this.discoverRepos.bind(this),
             openGithub: this.openGithub.bind(this),
             run: this.compileAndRun.bind(this),
             createNewRepository: this.createNewRepository.bind(this)
@@ -363,13 +368,11 @@ class PreviewModule{
     }
 
     //TODO error handling.
-    async discoverRepos(user){
+    async discoverRepos(){
 
         try{
-            const username = user.data.login;
-
             const repoListResult = await this.octokit.repos.listForUser({
-                username,
+                username: this.currentUsername,
             });
 
             console.log(repoListResult);

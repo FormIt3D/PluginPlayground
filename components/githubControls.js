@@ -62,6 +62,15 @@ class GithubControls extends React.Component {
             ]
         );
 
+        const refreshReposButton = React.createElement('a',
+            {
+                id:'RefreshReposButton',
+                onClick: this.props.refreshReposList,
+                title:'Refresh List'
+            },
+            React.createElement('i', {className:'material-icons'}, 'refresh')
+        );
+
         const dropdown =  React.createElement(
             'div',
             {
@@ -84,7 +93,8 @@ class GithubControls extends React.Component {
                                 'span',
                                 {
                                 },
-                                this.state.currentlyLoadedRepo || 'Open existing project'
+                                this.state.currentlyLoadedRepo || 'Open existing project',
+
                             ),
                             React.createElement(
                                 'span',
@@ -93,6 +103,7 @@ class GithubControls extends React.Component {
                                 },
                                 React.createElement('i', {className:'material-icons'}, 'expand_more')
                             ),
+                            refreshReposButton
                         ]
                     )
                 ),
