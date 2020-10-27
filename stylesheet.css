@@ -1,0 +1,121 @@
+h1.title {
+    font-size: 20px !important;
+    font-family: Arial !important;
+    color: grey !important;
+    font-weight:bold !important;
+    margin-bottom: 0 !important;
+    padding: 10px !important;
+}
+
+
+#EditorWrapper .navbar{
+    margin:0;
+    padding-left:10px;
+}
+
+#EditorWrapper .navbar ul li{
+    display:inline-block;
+}
+
+#ButtonWrapper {
+    padding:20px;
+}
+
+#EditCode,
+#Login{
+    width:100%;
+}
+
+#HTMLEditor, #CSSEditor, #JSEditor  {
+    height:30%
+}
+
+#Result{
+
+}
+
+#GitHucContent{
+    background-color:aliceblue;
+    border-top: solid 1px lightsteelblue;
+    padding:10px;
+}
+
+#MainControls{
+    text-align:center;
+    border-top: solid 1px lightsteelblue;
+    border-bottom: solid 1px lightsteelblue;
+    background-color:aliceblue;
+}
+
+#MainControls .material-icons{
+    font-size:48px;
+    margin:20px;
+}
+
+#RepoControls,
+#ProjectDD {
+    display:inline-block;
+}
+
+#ProjectDD button{
+    width:255px;
+}
+
+#RepoControls{
+    margin-left:5px;
+}
+
+#RepoControls a {
+    padding: 8px 5px;
+    display: inline-block;
+}
+
+#CreateControls{
+    margin-bottom:10px;
+}
+
+#CreateControls input{
+    width:325px;
+}
+
+#CreateControls i{
+    font-size: 30px;
+    padding: 5px;
+}
+
+#Result .pluginMessage{
+    padding:10px;
+    text-align:center;
+}
+
+#Result .pluginMessage i{
+    vertical-align: top;
+}
+
+#LoginControls{
+    border-top: solid 1px lightsteelblue;
+    padding:10px;
+}
+
+#LoginButton{
+    width:100%;
+}
+
+#UserName{
+    float:left;
+    padding:5px;
+}
+
+.dropdown-item:hover{
+    background-color: aliceblue;
+    cursor:pointer;
+}
+
+.repoName{
+    font-weight:bold;
+}
+
+.repoDescription{
+    font-size:11px;
+    color:#555;
+}

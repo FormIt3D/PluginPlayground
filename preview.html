@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Playground</title>
+    <META NAME="Title" CONTENT="Playground!">
+    <META NAME="Author" CONTENT="Autodesk FormIt">
+    <script type="text/javascript" src="../SharedPluginFiles/FormIt.js"></script>
+    <script type="text/javascript" src="../SharedPluginFiles/FormItInterface.js"></script>
+    <script type="text/javascript" src="../SharedPluginFiles/PluginUtils.js"></script>
+
+    <head><link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script type="text/javascript">
+        FormItInterface.Initialize(() => {
+            //Temporarily turning this off.
+            //FormItInterface.CallMethod("PluginPlayground.ShowDialog");
+            //FormItInterface.CallMethod("PluginPlayground.ShowAuthorizeDialog");
+
+        });
+    </script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+</head>
+<body>
+    <h1 class='title'>Plugin Playground</h1>
+    <div id ="LoginControls"></div>
+    <div id="GithubRoot"></div>
+    <div id="MainControls"></div>
+    <div id="Result"><div class='pluginMessage'>Plugin goes here. Press play<i class='material-icons'>play_arrow</i>!</div></div>
+    <script type="module" src="previewModule.js"></script>
+</body>
+</html>

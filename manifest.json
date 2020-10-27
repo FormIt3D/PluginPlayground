@@ -1,0 +1,8 @@
+{
+    "PluginName": "Plugin playground",
+    "PluginDescription": "Plugin playground",
+    "PluginType": "Panel",
+    "Panel": "PLUGINLOCATION/preview.html",
+    "PanelIcon": "PLUGINLOCATION/plugin.png",
+    "Scripts": [ "PLUGINLOCATION/plugin_formit.js" ]
+}
