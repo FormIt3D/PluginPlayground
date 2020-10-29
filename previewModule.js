@@ -39,6 +39,16 @@ class PreviewModule{
         resultContainer.appendChild(script);
     }
 
+    clearRun(){
+        const resultContainer = document.getElementById("Result");
+
+        while (resultContainer.hasChildNodes()) {
+            resultContainer.removeChild(resultContainer.lastChild);
+        }
+
+        resultContainer.innerHTML = `<div class='pluginMessage'>Plugin goes here. Press play<i class='material-icons'>play_arrow</i>!</div>`
+    }
+
     addIntervals(){
         /*setInterval(() => {
             const shouldRun = localStorage.getItem('Run') === 'true';
@@ -105,9 +115,9 @@ class PreviewModule{
         let clientId;
         
         if (window.location.host.indexOf("localhost") > -1){
-            clientId = '697e57494c9b5227b28c';
+            clientId = '87e4a10e937d695d312d'; //local
         }else{
-            clientId = 'd7db57b667627e47026a';
+            clientId = '9fcdf9d7f7dacbb41a97';
         }
 
         const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo`;
@@ -149,6 +159,8 @@ class PreviewModule{
         const mainControls = React.createElement(MainControls, {
             editRepository: this.editRepository.bind(this),
             run: this.compileAndRun.bind(this),
+            isRepoLoaded: this.currentlyLoadedRepoData,
+            saveToRepository: this.compileAndRun.bind(this),
         }, null);
 
         ReactDOM.render(mainControls, domContainer);
@@ -163,6 +175,8 @@ class PreviewModule{
             saveToRepository: this.saveToRepository.bind(this),
             refreshRepository: this.refreshRepository.bind(this),
             refreshReposList: this.discoverRepos.bind(this),
+            publishToPages: this.publishToPages.bind(this),
+            installPlugin: this.installPlugin.bind(this),
             openGithub: this.openGithub.bind(this),
             run: this.compileAndRun.bind(this),
             createNewRepository: this.createNewRepository.bind(this)
@@ -171,8 +185,18 @@ class PreviewModule{
         ReactDOM.render(githubControls, domContainer);
     }
 
-    openGithub(){
+    installPlugin(){
         const repoData = this.currentlyLoadedRepoData;
+
+        //alert('will install')
+
+        //this.currentlyLoadedRepo.pagesHtmlUrl
+        FormItInterface.CallMethod("FormIt.UninstallPlugin", repoData.pagesHtmlUrl);
+        FormItInterface.CallMethod("FormIt.LoadPlugin", repoData.pagesHtmlUrl);
+    }
+
+    openGithub(repoData){
+        //const repoData = this.currentlyLoadedRepoData;
 
         //TODO probably need to add condition here for windows.
         window.open(repoData.html_url);
@@ -181,6 +205,21 @@ class PreviewModule{
     refreshRepository(){
         const repoData = this.currentlyLoadedRepoData;
         this.loadRepository(repoData);
+    }
+
+    async publishToPages(repoData){
+        //const repoData = this.currentlyLoadedRepoData;
+
+        const result = await this.octokit.repos.createPagesSite({
+            owner: repoData.owner.login,
+            repo: repoData.name,
+            source: {
+                branch: "main"
+            } //"main", //source,
+            //"source.branch": "main" //source.branch
+        });
+
+        return result;
     }
 
     async saveToRepository(){
@@ -239,6 +278,7 @@ class PreviewModule{
     }
 
     async loadRepository(repoData){
+        this.clearRun();
         this.currentlyLoadedRepoData = repoData;
 
         console.log("will load content for this repo: ", repoData);
@@ -294,7 +334,9 @@ class PreviewModule{
             localStorage.setItem('currentCSSValue', cssContent);
             localStorage.setItem('currentJSValue', scriptContent);
 
-            FormItInterface.CallMethod("PluginPlayground.ShowDialog");
+            this.renderMainControls();
+
+            //FormItInterface.CallMethod("PluginPlayground.ShowDialog");
         });
     }
 
@@ -351,6 +393,16 @@ class PreviewModule{
             path: 'manifest.json',
             content:encodedManifest,
         });
+
+        const imageRes = await this.octokit.repos.createOrUpdateFileContents({
+            owner,
+            repo,
+            message: "Adding image",
+            path: 'plugin.png',
+            content:defaultRepoValues.png,
+        });
+
+        this.discoverRepos();
     }
 
     async getUserData(token){
@@ -383,7 +435,26 @@ class PreviewModule{
 
             console.log(formitPluginRepos);
 
-            this.renderRepos(formitPluginRepos);
+            const reposPromises = formitPluginRepos.map(async (repo) => {
+                try{
+                    const pagesResult = await this.octokit.repos.getPages({
+                        owner: repo.owner.login,
+                        repo: repo.name,
+                    });
+
+                    if (pagesResult.data){
+                        repo.pagesHtmlUrl = pagesResult.data.html_url;
+                    }
+                }catch(e){
+                    //TODO?
+                }
+
+                return repo;
+            });
+
+            Promise.all(reposPromises).then((repos) => {
+                this.renderRepos(repos);
+            }); 
 
         }catch(e){
             console.log(e);

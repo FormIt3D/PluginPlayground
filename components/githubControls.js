@@ -13,21 +13,31 @@ class GithubControls extends React.Component {
 
     render() {
 
-        const allRepoOptions = this.props.repos.map((repoData) => {
-            return React.createElement(RepositoryOption, {
-                repoData,
-                loadRepository: (repoData, forceRefresh) => {
-                    this.setState({
-                        currentlyLoadedRepo: repoData.name
-                    });
+        const allRepoOptions = this.props.repos.length ?
+            this.props.repos.map((repoData) => {
+                return React.createElement(RepositoryOption, {
+                    repoData,
+                    loadRepository: (repoData, forceRefresh) => {
+                        this.setState({
+                            currentlyLoadedRepo: repoData
+                        });
 
-                    this.props.loadRepository(repoData, forceRefresh);
-                },
-                saveToRepository: this.props.saveToRepository,
-                run: this.props.run,
-                isCurrentlyLoaded: this.state.currentlyLoadedRepo === repoData.name,
-            }, null);
-        });
+                        this.props.loadRepository(repoData, forceRefresh);
+                    },
+                    saveToRepository: this.props.saveToRepository,
+                    run: this.props.run,
+                    isCurrentlyLoaded: this.state.currentlyLoadedRepo.name === repoData.name,
+                    openGithub: this.props.openGithub,
+                    publishToPages: this.props.publishToPages,
+                    installPlugin: this.props.installPlugin
+                }, null);
+            })
+            : React.createElement('div', 
+                    {
+                        className:'noProjects'
+                    },
+                    'No projects found. Please create a first project.'
+                );
 
         const input =  React.createElement('input', {
             className: 'input',
@@ -37,7 +47,7 @@ class GithubControls extends React.Component {
             onChange: (e) => {
                 const value = e.target.value;
 
-                console.log(value);
+                //console.log(value);
 
                 this.setState({newProjectName: value})
             }
@@ -54,22 +64,24 @@ class GithubControls extends React.Component {
                         onClick: () => {
                             if (this.state.newProjectName){
                                 this.props.createNewRepository(this.state.newProjectName);
+                                this.setState({newProjectName: ''});
                             }
-                        }
+                        },
+                        title:'Create'
                     },
                     React.createElement('i', {className:'material-icons'}, 'add')
                 ),
             ]
         );
 
-        const refreshReposButton = React.createElement('a',
+        /*const refreshReposButton = React.createElement('a',
             {
                 id:'RefreshReposButton',
                 onClick: this.props.refreshReposList,
                 title:'Refresh List'
             },
             React.createElement('i', {className:'material-icons'}, 'refresh')
-        );
+        );*/
 
         const dropdown =  React.createElement(
             'div',
@@ -93,7 +105,7 @@ class GithubControls extends React.Component {
                                 'span',
                                 {
                                 },
-                                this.state.currentlyLoadedRepo || 'Open existing project',
+                                this.state.currentlyLoadedRepo && this.state.currentlyLoadedRepo.name || 'Open a project',
 
                             ),
                             React.createElement(
@@ -103,7 +115,7 @@ class GithubControls extends React.Component {
                                 },
                                 React.createElement('i', {className:'material-icons'}, 'expand_more')
                             ),
-                            refreshReposButton
+                            //refreshReposButton
                         ]
                     )
                 ),
@@ -163,17 +175,33 @@ class GithubControls extends React.Component {
             React.createElement('i', {className:'material-icons'}, 'save')
         );
 
-        const githubButton = React.createElement('a',
+        /*const githubButton = React.createElement('a',
             {
                 onClick: () => {
                     this.props.openGithub();
                 },
                 title:'Visit github project'
             },
-            React.createElement('i', {className:'material-icons'}, 'cloud')
+            React.createElement('i', {className:'material-icons'}, 'preview')
+        );*/
+
+        /*const publishButton = React.createElement('a',
+            {
+                onClick: this.props.publishToPages,
+                title:'Publish'
+            },
+            React.createElement('i', {className:'fas fa-bullhorn fa-lg'}, '')
         );
 
-        const controls = React.createElement(
+        const installButton = React.createElement('a',
+            {
+                onClick: this.props.installPlugin,
+                title:'Load Plugin'
+            },
+            React.createElement('i', {className:'fas fa-plug fa-lg'}, 'toggle_on')
+        );*/
+
+        /*const controls = React.createElement(
             'div',
             {
                 id:'RepoControls',
@@ -184,9 +212,16 @@ class GithubControls extends React.Component {
                 saveButton,
                 refreshButton,
                 //playButton,
-                githubButton
+                //githubButton,
+                //this.state.currentlyLoadedRepo && this.state.currentlyLoadedRepo.pagesHtmlUrl ? installButton : publishButton,
+                
             ]
-        );
+        );*/
+
+
+        //const test = this.state.currentlyLoadedRepo && this.state.currentlyLoadedRepo.pagesHtmlUrl
+
+        //debugger;
 
         return React.createElement(
             'div',
@@ -197,7 +232,7 @@ class GithubControls extends React.Component {
             [
                 createRepo,
                 dropdown,
-                this.state.currentlyLoadedRepo ? controls : null,
+                //this.state.currentlyLoadedRepo ? controls : null,
             ]
         );
     }

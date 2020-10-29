@@ -1,0 +1,26 @@
+TODOs
+
+
+
+- fix resizing of editor
+
+- force refresh of repo data
+
+
+
+
+
+
+
+
+
+
+
+____________________________________________________________________
+
+
+-auth callback, handle web vs windows. Separate client ids - to redirect to different htmls.
+    windows to redirect
+    web to close new window
+
+-default plugin to play with without github login

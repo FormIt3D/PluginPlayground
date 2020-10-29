@@ -12,7 +12,8 @@ class MainControls extends React.Component {
             {
                 onClick: () => {
                     this.props.run();
-                }
+                },
+                title:'Play'
             },
             React.createElement('i', {className:'material-icons'}, 'play_arrow')
         );
@@ -21,9 +22,20 @@ class MainControls extends React.Component {
             {
                 onClick: () => {
                     this.props.editRepository();
-                }
+                },
+                title:'Edit'
             },
             React.createElement('i', {className:'material-icons'}, 'mode_edit')
+        );
+
+        const saveButton = React.createElement('a',
+            {
+                onClick: () => {
+                    this.props.saveToRepository();
+                },
+                title:'Save'
+            },
+            React.createElement('i', {className:'material-icons'}, 'save')
         );
 
         const controls = React.createElement(
@@ -34,6 +46,7 @@ class MainControls extends React.Component {
             [
                 editButton,
                 playButton,
+                this.props.isRepoLoaded ? saveButton : null
             ]
         );
 

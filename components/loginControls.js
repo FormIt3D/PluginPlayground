@@ -16,14 +16,14 @@ class LoginControls extends React.Component {
                     className: ''
                 },
                 [
-                    React.createElement(
+                    /*React.createElement(
                         'div',
                         {
                             id: 'UserName',
                             className: '',
                         },
                         'Logged in as: ' + username
-                    ),
+                    ),*/
                     React.createElement(
                         'button',
                         {
@@ -31,7 +31,10 @@ class LoginControls extends React.Component {
                             className: 'button is-link',
                             onClick: this.props.logout
                         },
-                        'Logout'
+                        [
+                            `Logout from ${username}`,
+                            React.createElement('i', {className:'fab fa-github fa-lg'}, '')
+                        ]
                     )
                 ]
             );
@@ -44,7 +47,10 @@ class LoginControls extends React.Component {
                     className: 'button is-link',
                     onClick: this.props.login
                 },
-                'Login to GitHub'
+                [
+                    'Login',
+                    React.createElement('i', {className:'fab fa-github fa-lg'}, '')
+                ]
             );
         }
     }

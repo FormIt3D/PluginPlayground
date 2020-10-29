@@ -77,18 +77,78 @@ url: "https://api.github.com/repos/mattributes/mattOctokitTest"
 watchers: 0
 watchers_count: 0*/
 
+//Added
+/*
+pagesHtmlUrl: ""
+*/
+
 class RepositoryOption extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            pagesHtmlUrl: ""
+        };
     }
 
     render() {
+        const githubButton = React.createElement('a',
+            {
+                className:'githubButton',
+                onClick: (e) => {
+                    this.props.openGithub(this.props.repoData);
+                    e.stopPropagation();
+                    e.preventDefault();
+                },
+                title:'Visit github project'
+            },
+            React.createElement('i', {className:'fab fa-github fa-lg'}, '')
+        );
+
+        const publishButton = React.createElement('a',
+            {
+                onClick: async (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    const result = await this.props.publishToPages(this.props.repoData);
+                    
+                    console.log(result);
+
+                    if (result && result.data && result.data.html_url){
+                        this.setState({
+                            pagesHtmlUrl: result.data.html_url
+                        });
+                    }
+                },
+                title:'Publish'
+            },
+            React.createElement('i', {className:'fas fa-bullhorn'}, '')
+        );
+
+        const installButton = React.createElement('a',
+            {
+                onClick: (e) => {
+                    let repoData = this.props.repoData;
+
+                    if (this.state.pagesHtmlUrl){
+                        repoData = {...this.props.repoData, pagesHtmlUrl: this.state.pagesHtmlUrl};
+                    }
+
+                    this.props.installPlugin(repoData);
+                    e.stopPropagation();
+                    e.preventDefault();
+                },
+                title:'Load Plugin'
+            },
+            React.createElement('i', {className:'fas fa-plug fa-lg'}, '')
+        );
+
+        const isPublished = this.props.repoData.pagesHtmlUrl || this.state.pagesHtmlUrl;
+
         return (
             React.createElement(
                 'div',
                 {
-                    className: 'dropdown-item',
+                    className: `dropdown-item ${this.props.isCurrentlyLoaded ? 'isLoaded': ''}`,
                     onClick: () => {
                         this.props.loadRepository(this.props.repoData);
                     }
@@ -107,7 +167,17 @@ class RepositoryOption extends React.Component {
                             className: 'repoDescription'
                         },
                         this.props.repoData.description
-                    )
+                    ),
+                    React.createElement(
+                        'div',
+                        {
+                            className: 'repoControls'
+                        },
+                        [
+                            isPublished ? installButton : publishButton,
+                            githubButton
+                        ]
+                    ),
                 ]
             )
         )

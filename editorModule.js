@@ -59,7 +59,9 @@ class EditorModule{
 
     addEventListeners(){
         const hideShowEditor = (editor) => {
-            editor.container.hidden = !editor.container.hidden;
+            console.log(editor.container.parentElement);
+            editor.container.parentElement.style.display = editor.container.parentElement.style.display === 'none'
+                ? 'block' : 'none';
         }
 
         document.getElementById("HTMLButton").addEventListener("click", (e) => {
@@ -89,6 +91,27 @@ class EditorModule{
             localStorage.setItem('Run', 'true');
         });*/
 
+        const startButton = document.getElementById("Start");
+        const stopButton = document.getElementById("Stop");
+
+        stopButton.style.display = "none";
+
+        startButton.addEventListener("click", () => {
+            startButton.style.display = "none";
+            stopButton.style.display = "inline";
+
+            FormItInterface.CallMethod("PluginPlayground.StartJournaling");
+        });
+
+        stopButton.addEventListener("click", () => {
+            stopButton.style.display = "none";
+            startButton.style.display = "inline";
+
+            FormItInterface.CallMethod("PluginPlayground.StopJournaling", "", (res) => {
+                this.cleanJournal(res);
+            });
+        });
+
         this.HTMLEditor.session.on('change', () => {
             const content = this.HTMLEditor.getValue();
             localStorage.setItem('currentHTMLValue', content);
@@ -103,6 +126,38 @@ class EditorModule{
             const content = this.JSEditor.getValue();
             localStorage.setItem('currentJSValue', content);
         });
+    }
+
+    cleanJournal(journalRaw){
+        //console.log(journalRaw);
+
+        let encodedJournal = encodeURIComponent(journalRaw);
+
+        encodedJournal = encodedJournal.replace('WSM.APILoadFromFile(mainHistID%2C%20%5C%22%2Ftmp%2Fjournal.dat%5C%22)%3B', '');
+        encodedJournal = encodedJournal.replaceAll('FormIt.SectionPlanes.GetInstances()%3B%5Cn%20%20%20%20', '');
+        encodedJournal = encodedJournal.replaceAll('FormIt.SectionPlanes.GetPlanes()%3B%5Cn%20%20%20%20', '');
+        //encodedJournal = encodedJournal.replaceAll('WSM.APIUndoHistory(mainHistID%2C%20false%2C%20WSM.INVALID_ID)%3B%5Cn%20%20%20%20', '');
+        //encodedJournal = encodedJournal.replaceAll('WSM.APIRedoHistory(mainHistID%2C%20WSM.INVALID_ID)%3B%5Cn%20%20%20%20', '');
+        //console.log(encodedJournal)
+
+        let journal = decodeURIComponent(encodedJournal);
+        //console.log(journal);
+
+        journal = journal.replaceAll('"','');
+        journal =journal.replace('var result = true;', '');
+        journal =journal.replace('return result;', '');
+        journal =journal.replace('WSM.APIGetActiveHistory();', '0;');
+        journal = journal.replace(/\\n/g, '\r\n');
+        journal = journal.replace('function runtest', 'async function runJournal');
+        journal = journal.replace(/(^[ \t]*\n)/gm, '');
+        journal = journal.replaceAll('WSM.', 'await WSM.');
+        journal = journal.replaceAll('FormIt.', 'await FormIt.');
+
+        journal += '\r\n\r\nrunJournal();'
+
+        if (window.confirm("Do you want to replace script with journal?")) { 
+            this.JSEditor.setValue(journal, 1);
+        }
     }
 }
 
