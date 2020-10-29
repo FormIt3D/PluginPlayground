@@ -1,5 +1,5 @@
 html{
-    overflow:hidden;
+    overflow:hidden !important;
 }
 
 h1.title {
@@ -63,7 +63,7 @@ h1.title {
 
 #ProjectDD .dropdown-menu,
 #ProjectDD button{
-    width:370px;
+    width:345px;
 }
 
 #RepoControls{
@@ -80,7 +80,7 @@ h1.title {
 }
 
 #CreateControls input{
-    width:325px;
+    width:305px;
 }
 
 #CreateControls i{
