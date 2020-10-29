@@ -15,7 +15,7 @@ class MainControls extends React.Component {
                 },
                 title:'Play'
             },
-            React.createElement('i', {className:'material-icons'}, 'play_arrow')
+            React.createElement('i', {className:'fas fa-play'}, '')
         );
 
         const editButton = React.createElement('a',
@@ -25,7 +25,7 @@ class MainControls extends React.Component {
                 },
                 title:'Edit'
             },
-            React.createElement('i', {className:'material-icons'}, 'mode_edit')
+            React.createElement('i', {className:'fas fa-edit'}, '')
         );
 
         const saveButton = React.createElement('a',
@@ -35,7 +35,7 @@ class MainControls extends React.Component {
                 },
                 title:'Save'
             },
-            React.createElement('i', {className:'material-icons'}, 'save')
+            React.createElement('i', {className:'fas fa-save'}, '')
         );
 
         const controls = React.createElement(

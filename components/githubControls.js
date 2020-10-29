@@ -69,7 +69,7 @@ class GithubControls extends React.Component {
                         },
                         title:'Create'
                     },
-                    React.createElement('i', {className:'material-icons'}, 'add')
+                    React.createElement('i', {className:'fas fa-plus-circle'}, '')
                 ),
             ]
         );
@@ -113,7 +113,7 @@ class GithubControls extends React.Component {
                                 {
                                     className: 'icon is-small'
                                 },
-                                React.createElement('i', {className:'material-icons'}, 'expand_more')
+                                React.createElement('i', {className:'fas fa-caret-down'}, '')
                             ),
                             //refreshReposButton
                         ]

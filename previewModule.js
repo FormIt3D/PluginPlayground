@@ -46,7 +46,7 @@ class PreviewModule{
             resultContainer.removeChild(resultContainer.lastChild);
         }
 
-        resultContainer.innerHTML = `<div class='pluginMessage'>Plugin goes here. Press play<i class='material-icons'>play_arrow</i>!</div>`
+        resultContainer.innerHTML = `<div class='pluginMessage'>Plugin goes here. Press play<i class="fas fa-play"></i>!</div>`
     }
 
     addIntervals(){
@@ -160,7 +160,7 @@ class PreviewModule{
             editRepository: this.editRepository.bind(this),
             run: this.compileAndRun.bind(this),
             isRepoLoaded: this.currentlyLoadedRepoData,
-            saveToRepository: this.compileAndRun.bind(this),
+            saveToRepository: this.saveToRepository.bind(this),
         }, null);
 
         ReactDOM.render(mainControls, domContainer);
@@ -185,8 +185,8 @@ class PreviewModule{
         ReactDOM.render(githubControls, domContainer);
     }
 
-    installPlugin(){
-        const repoData = this.currentlyLoadedRepoData;
+    installPlugin(repoData){
+        //const repoData = this.currentlyLoadedRepoData;
 
         //alert('will install')
 

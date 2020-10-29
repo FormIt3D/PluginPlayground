@@ -49,10 +49,11 @@ h1.title {
     border-top: solid 1px lightsteelblue;
     border-bottom: solid 1px lightsteelblue;
     background-color:aliceblue;
+    padding:10px;
 }
 
-#MainControls .material-icons{
-    font-size:48px;
+#MainControls a{
+    font-size:40px;
     margin:20px;
 }
 
@@ -84,8 +85,8 @@ h1.title {
 }
 
 #CreateControls i{
-    font-size: 30px;
-    padding: 5px;
+    font-size: 22px;
+    padding: 10px;
 }
 
 #Result .pluginMessage{
@@ -94,7 +95,8 @@ h1.title {
 }
 
 #Result .pluginMessage i{
-    vertical-align: top;
+    vertical-align: middle;
+    margin: 10px;
 }
 
 #LoginControls{
