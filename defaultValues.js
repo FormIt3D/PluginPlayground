@@ -1,21 +1,23 @@
 const defaultRepoValues = {
-    html: `
-<!DOCTYPE html>
+    html: `<!DOCTYPE html>
 <html>
-    <head>
+<head>
     <title>My Plugin</title>
     <link href="plugin.css" rel="stylesheet">
-    </head>
-    <body>
-    <label>Width</label>
-    <input id="Width" type=number value =12 />
-    </br>
-    <label>Length</label>
-    <input id="Length" type=number value =12 />
-    </br>
-    <label>Height</label>
-    <input id="Height" type=number value =12 />
-    </br>
+</head>
+<body>
+    <div>
+        <label>Width</label>
+        <input id="Width" type=number value =12 />
+    </div>
+    <div>
+        <label>Length</label>
+        <input id="Length" type=number value =12 />
+    </div>
+    <div>
+        <label>Height</label>
+        <input id="Height" type=number value =12 />
+    </div>
     <input id="CreateBlockBtn" type=button value="Create Block" />
     <!--Do not remove below scripts unless you know what you're doing-->
     <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormIt.js"></script>
@@ -25,10 +27,9 @@ const defaultRepoValues = {
     <script type="text/javascript">
         FormItInterface.Initialize();
     </script>
-    </body>
+</body>
 </html>`,
-    script:`
-const createBlock = async (w,l,h) => {
+    script:`const createBlock = async (w,l,h) => {
     const pt1 = await WSM.Geom.Point3d(0,0,0);
     const pt2 = await WSM.Geom.Point3d(w,l,h);
     const histID = await FormIt.GroupEdit.GetEditingHistoryID();
