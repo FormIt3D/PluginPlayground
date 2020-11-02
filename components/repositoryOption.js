@@ -93,6 +93,7 @@ class RepositoryOption extends React.Component {
     render() {
         const githubButton = React.createElement('a',
             {
+                key: 'GithubButton',
                 className:'githubButton',
                 onClick: (e) => {
                     this.props.openGithub(this.props.repoData);
@@ -106,6 +107,7 @@ class RepositoryOption extends React.Component {
 
         const publishButton = React.createElement('a',
             {
+                key: 'PublishButton',
                 onClick: async (e) => {
                     e.stopPropagation();
                     e.preventDefault();
@@ -126,6 +128,7 @@ class RepositoryOption extends React.Component {
 
         const installButton = React.createElement('a',
             {
+                key: 'InstallButton',
                 onClick: (e) => {
                     let repoData = this.props.repoData;
 
@@ -157,6 +160,7 @@ class RepositoryOption extends React.Component {
                     React.createElement(
                         'a',
                         {
+                            key: 'RepoName',
                             className: 'repoName',
                         },
                         this.props.repoData.name
@@ -164,6 +168,7 @@ class RepositoryOption extends React.Component {
                     React.createElement(
                         'div',
                         {
+                            key: 'RepoDesc',
                             className: 'repoDescription'
                         },
                         this.props.repoData.description
@@ -171,6 +176,7 @@ class RepositoryOption extends React.Component {
                     React.createElement(
                         'div',
                         {
+                            key: 'RepoControls',
                             className: 'repoControls'
                         },
                         [

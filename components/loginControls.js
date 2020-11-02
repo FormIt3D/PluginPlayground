@@ -15,28 +15,24 @@ class LoginControls extends React.Component {
                 {
                     className: ''
                 },
-                [
-                    /*React.createElement(
-                        'div',
-                        {
-                            id: 'UserName',
-                            className: '',
-                        },
-                        'Logged in as: ' + username
-                    ),*/
-                    React.createElement(
-                        'button',
-                        {
-                            id: 'LogoutButton',
-                            className: 'button is-link',
-                            onClick: this.props.logout
-                        },
-                        [
-                            `Logout from ${username}`,
-                            React.createElement('i', {className:'fab fa-github fa-lg'}, '')
-                        ]
-                    )
-                ]
+                React.createElement(
+                    'button',
+                    {
+                        id: 'LogoutButton',
+                        className: 'button is-link',
+                        onClick: this.props.logout
+                    },
+                    [
+                        React.createElement(
+                            'span',
+                            {
+                                key: 'LogoutSpan'
+                            },
+                            `Logout from ${username}`
+                        ),
+                        React.createElement('i', {key: 'LogoutIcon', className:'fab fa-github fa-lg'}, '')
+                    ]
+                )
             );
 
         }else{
@@ -48,8 +44,14 @@ class LoginControls extends React.Component {
                     onClick: this.props.login
                 },
                 [
-                    'Login',
-                    React.createElement('i', {className:'fab fa-github fa-lg'}, '')
+                    React.createElement(
+                        'span',
+                        {
+                            key: 'LoginSpan'
+                        },
+                        `Login`
+                    ),
+                    React.createElement('i', {key: 'LoginIcon', className:'fab fa-github fa-lg'}, '')
                 ]
             );
         }

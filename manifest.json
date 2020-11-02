@@ -1,6 +1,6 @@
 {
-    "PluginName": "Plugin playground",
-    "PluginDescription": "Plugin playground",
+    "PluginName": "Plugin Playground",
+    "PluginDescription": "Create plugins easily and quickly from within FormIt. No server required, and publish directly to GitHub.",
     "PluginType": "Panel",
     "Panel": "PLUGINLOCATION/preview.html",
     "PanelIcon": "PLUGINLOCATION/plugin.png",

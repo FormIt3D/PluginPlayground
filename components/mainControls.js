@@ -10,6 +10,7 @@ class MainControls extends React.Component {
 
         const playButton = React.createElement('a',
             {
+                key: 'playButton',
                 onClick: () => {
                     this.props.run();
                 },
@@ -20,6 +21,7 @@ class MainControls extends React.Component {
 
         const editButton = React.createElement('a',
             {
+                key: 'editButton',
                 onClick: () => {
                     this.props.editRepository();
                 },
@@ -30,6 +32,7 @@ class MainControls extends React.Component {
 
         const saveButton = React.createElement('a',
             {
+                key: 'saveButton',
                 onClick: () => {
                     this.props.saveToRepository();
                 },
@@ -55,9 +58,7 @@ class MainControls extends React.Component {
             {
                 className: ''
             },
-            [
-                controls
-            ]
+            controls
         );
     }
 }
