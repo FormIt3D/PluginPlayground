@@ -2,31 +2,35 @@ const defaultRepoValues = {
     html: `<!DOCTYPE html>
 <html>
 <head>
-    <title>My Plugin</title>
+    <title>Hello World</title>
     <link href="plugin.css" rel="stylesheet">
 </head>
 <body>
-    <div>
-        <label>Width</label>
-        <input id="Width" type=number value =12 />
+    <div class="pluginContainer">
+        <h1>Hello World</h1>
+        <p>Create a cuboid of the specified size at the origin.</p>
+        <div>
+            <input id="Width" type=number value =12 />
+            <label>Width</label>
+        </div>
+        <div>
+            <input id="Length" type=number value =12 />
+            <label>Length</label>
+        </div>
+        <div>
+            <input id="Height" type=number value =12 />
+            <label>Height</label>
+        </div>
+        <input id="CreateBlockBtn" type=button value="Create Block" />
+        <!--Do not remove below scripts unless you know what you're doing-->
+        <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormIt.js"></script>
+        <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormItInterface.js"></script>
+        <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/PluginUtils.js"></script>
+        <script type="text/javascript" src="plugin.js"></script>
+        <script type="text/javascript">
+            FormItInterface.Initialize();
+        </script>
     </div>
-    <div>
-        <label>Length</label>
-        <input id="Length" type=number value =12 />
-    </div>
-    <div>
-        <label>Height</label>
-        <input id="Height" type=number value =12 />
-    </div>
-    <input id="CreateBlockBtn" type=button value="Create Block" />
-    <!--Do not remove below scripts unless you know what you're doing-->
-    <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormIt.js"></script>
-    <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormItInterface.js"></script>
-    <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/PluginUtils.js"></script>
-    <script type="text/javascript" src="plugin.js"></script>
-    <script type="text/javascript">
-        FormItInterface.Initialize();
-    </script>
 </body>
 </html>`,
     script:`const createBlock = async (w,l,h) => {
@@ -45,13 +49,71 @@ document.getElementById("CreateBlockBtn").addEventListener("click", () => {
 
     createBlock(w,l,h);
 });`,
-    css:`label {
-    font-weight: bold;
-}
+    css:`.pluginContainer {
+        font-family: Arial;
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 20px;
+        font-weight: bold;
+        color: grey;
+        padding-bottom: 5px;
+    }
 
-input{
-    width:100px;
-}`,
+    p {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    input {
+        border: 1px solid #4676a9;
+        padding-left: 1px;
+        padding-right: 1px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        width: 75px;
+    }
+    
+    input:hover {
+        border: 2px solid #c3e8f4;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        outline: none;
+    }
+    
+    input[type=button], input[type=submit] {
+        color: white;
+        background-color: #4676a9;
+        border: 1px solid #4676a9;
+        margin-top: 20px;
+        padding: 7px;
+        outline: none;
+        width: auto;
+    }
+    
+    input[type=button]:hover, input[type=submit]:hover {
+        color: white;
+        background-color: #4676a9;
+        border: 2px solid #c3e8f4;
+        margin-top: 20px;
+        padding: 6px;
+    }
+    
+    input[type=button]:focus, input[type=submit]:focus {
+        color: white;
+        background-color: #4676a9;
+        border: 2px solid #c3e8f4;
+        margin-top: 20px;
+        padding: 6px;
+        outline: none;
+    }`,
     manifest:`{
     "PluginName": "Hello world",
     "PluginDescription": "Hello world",
