@@ -165,3 +165,26 @@ h1.title {
     padding:10px;
     text-align:center;
 }
+
+.pluginBadge {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    width: 60px;
+    height: 60px;
+    transform: rotate(45deg);
+    background: #23d160;
+}
+
+.pluginBadge .fa-plug{
+    transform: rotate(-45deg);
+    color: white;
+    position: absolute;
+    top: 21px;
+    font-size: 18px;
+    right: 5px;
+}
+
+.pluginBadge + h1 {
+    margin-left:25px;
+}
