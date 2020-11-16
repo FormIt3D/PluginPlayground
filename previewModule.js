@@ -196,10 +196,7 @@ class PreviewModule{
     }
 
     openGithub(repoData){
-        //const repoData = this.currentlyLoadedRepoData;
-
-        //TODO probably need to add condition here for windows.
-        FormIt.OpenURL(repoData.html_url);
+        FormItInterface.CallMethod("FormIt.OpenURL", repoData.html_url);
     }
 
     refreshRepository(){
