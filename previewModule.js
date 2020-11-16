@@ -199,7 +199,7 @@ class PreviewModule{
         //const repoData = this.currentlyLoadedRepoData;
 
         //TODO probably need to add condition here for windows.
-        window.open(repoData.html_url);
+        FormIt.OpenURL(repoData.html_url);
     }
 
     refreshRepository(){
