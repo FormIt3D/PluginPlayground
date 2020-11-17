@@ -2,6 +2,43 @@ html{
     overflow:hidden !important;
 }
 
+#PluginWrapper{
+    display:flex;
+    flex-direction: column;
+    height:100%;
+}
+
+#PluginContainer{
+    flex:1;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+
+#PluginFooter{
+    background-color: aliceblue;
+    padding: 10px;
+    font-size: 14px;
+    border-top:solid 1px royalblue;
+}
+
+#PluginFooter p{
+    color: #23d160;
+    font-weight:bold;
+}
+
+#PluginFooter .fa-plug{
+    font-size: 40px;
+    color: #23d160;
+    float: left;
+    margin: 10px;
+    margin-right: 20px;
+}
+
+#PluginFooter li {
+    padding:0;
+    margin-right:20px;
+}
+
 h1.title {
     font-size: 20px !important;
     font-family: Arial !important;

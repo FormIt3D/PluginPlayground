@@ -25,14 +25,27 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 </head>
 <body>
-    <a class='pluginBadge' target="_blank" href="https://formit3d.github.io/FormItExamplePlugins/index.html" title='Learn more about FormIt Plugins'>
-        <i class="fas fa-plug"></i>
-    </a>
-    <h1 class='title'>Plugin Playground</h1>
-    <div id ="LoginControls"></div>
-    <div id="MainControls"></div>
-    <div id="GithubRoot"></div>
-    <div id="Result"><div class='pluginMessage'>Plugin goes here. Press play<i class="fas fa-play"></i>!</div></div>
+    <div id="PluginWrapper">
+        <div id='PluginContainer'>
+            <h1 class='title'>Plugin Playground</h1>
+            <div id ="LoginControls"></div>
+            <div id="MainControls"></div>
+            <div id="GithubRoot"></div>
+            <div id="Result"><div class='pluginMessage'>Plugin goes here. Press play<i class="fas fa-play"></i>!</div></div>
+        </div>
+        <div id='PluginFooter'>
+            <i class="fas fa-plug"></i>
+            <p>Powered by FormIt JavaScript plugins</p>
+            <ul>
+                <li>
+                    <a id='LearnMoreLink' href="javascript:void(0);">Learn about plugins</a>
+                </li>
+                <li>
+                    <a id='BuildLink' href="javascript:void(0);">Build your own</a>
+                </li>
+            </ul>
+        </div>
+    </div>
     <script type="module" src="previewModule.js"></script>
 </body>
 </html>

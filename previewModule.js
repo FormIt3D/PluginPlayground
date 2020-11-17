@@ -135,23 +135,13 @@ class PreviewModule{
     }
 
     addEventListeners(){
-        /*document.getElementById("EditCode").addEventListener("click", () => {
-            FormItInterface.CallMethod("PluginPlayground.ShowDialog");
+        document.getElementById('LearnMoreLink').addEventListener('click', () => {
+            FormItInterface.CallMethod("FormIt.OpenURL", 'https://formit3d.github.io/FormItExamplePlugins/index.html');
         });
 
-        document.getElementById("Login").addEventListener("click", () => {
-            alert('here')
-
-            const clientId = '697e57494c9b5227b28c';
-            const url = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
-
-            const loginWindow = window.open(url, "Github login for Formit");
-
-            console.log(window.open);
-
-            //TODO windows only.
-            window.location.href = url;
-        });*/
+        document.getElementById('BuildLink').addEventListener('click', () => {
+            FormItInterface.CallMethod("FormIt.OpenURL", 'https://formit3d.github.io/FormItExamplePlugins/docs/HowToBuild.html');
+        });
     }
 
     renderMainControls(){
