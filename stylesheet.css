@@ -75,7 +75,27 @@ h1.title {
 
 }
 
-#GitHucContent{
+#GitHubRoot{
+
+}
+
+#GitHubRoot .loadingMessage{
+    text-align: center;
+}
+
+#GitHubRoot .control.is-loading{
+    font-size:45px;
+    width: 63%;
+    height: 100px;
+}
+
+#GitHubContent .control.is-loading{
+    font-size: 28px;
+    width: 59%;
+    height: 55px;
+}
+
+#GitHubContent{
     background-color:aliceblue;
     border-bottom: solid 1px lightsteelblue;
     padding:10px;

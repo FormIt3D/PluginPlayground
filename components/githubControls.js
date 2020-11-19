@@ -65,10 +65,17 @@ class GithubControls extends React.Component {
                 React.createElement('a',
                     {
                         key: 'AddNewProject',
-                        onClick: () => {
+                        onClick: async () => {
                             if (this.state.newProjectName){
-                                this.props.createNewRepository(this.state.newProjectName);
-                                this.setState({newProjectName: ''});
+                                this.setState({
+                                    isCreatingNewRepo: true,
+                                    newProjectName: ''
+                                });
+
+                                await this.props.createNewRepository(this.state.newProjectName);
+                                this.setState({
+                                    isCreatingNewRepo: false
+                                });
                             }
                         },
                         title:'Create'
@@ -78,7 +85,15 @@ class GithubControls extends React.Component {
             ]
         );
 
-        const dropdown =  React.createElement(
+        const loader = React.createElement(
+            'div',
+            {
+                className: 'control is-loading'
+            },
+            null
+        );
+
+        const dropdown = React.createElement(
             'div',
             {
                 id: 'ProjectDD',
@@ -140,12 +155,11 @@ class GithubControls extends React.Component {
             'div',
             {
                 className: '',
-                id: 'GitHucContent'
+                id: 'GitHubContent'
             },
             [
                 createRepo,
-                dropdown,
-                //this.state.currentlyLoadedRepo ? controls : null,
+                this.state.isCreatingNewRepo ? loader : dropdown
             ]
         );
     }

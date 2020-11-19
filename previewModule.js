@@ -390,6 +390,8 @@ class PreviewModule{
         });
 
         this.discoverRepos();
+
+        return;
     }
 
     async getUserData(token){
@@ -408,7 +410,6 @@ class PreviewModule{
 
     //TODO error handling.
     async discoverRepos(){
-
         try{
             const repoListResult = await this.octokit.repos.listForUser({
                 username: this.currentUsername,
