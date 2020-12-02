@@ -349,47 +349,64 @@ class PreviewModule{
         const encodedScript = btoa(defaultRepoValues.script);
         const encodedManifest = btoa(defaultRepoValues.manifest);
 
-        const htmlRes = await this.octokit.repos.createOrUpdateFileContents({
-            owner,
-            repo,
-            message: "Adding an html",
-            path: 'plugin.html',
-            content:encodedHtml,
-        });
+        try{
+            const htmlRes = await this.octokit.repos.createOrUpdateFileContents({
+                owner,
+                repo,
+                message: "Adding an html",
+                path: 'plugin.html',
+                content:encodedHtml,
+            });
 
-        const cssRes = await this.octokit.repos.createOrUpdateFileContents({
-            owner,
-            repo,
-            message: "Adding css",
-            path: 'plugin.css',
-            content:encodedCss,
-        });
+            const cssRes = await this.octokit.repos.createOrUpdateFileContents({
+                owner,
+                repo,
+                message: "Adding css",
+                path: 'plugin.css',
+                content:encodedCss,
+            });
 
-        const scriptRes = await this.octokit.repos.createOrUpdateFileContents({
-            owner,
-            repo,
-            message: "Adding js",
-            path: 'plugin.js',
-            content:encodedScript,
-        });
+            const scriptRes = await this.octokit.repos.createOrUpdateFileContents({
+                owner,
+                repo,
+                message: "Adding js",
+                path: 'plugin.js',
+                content:encodedScript,
+            });
 
-        const manifestRes = await this.octokit.repos.createOrUpdateFileContents({
-            owner,
-            repo,
-            message: "Adding manifest",
-            path: 'manifest.json',
-            content:encodedManifest,
-        });
+            const manifestRes = await this.octokit.repos.createOrUpdateFileContents({
+                owner,
+                repo,
+                message: "Adding manifest",
+                path: 'manifest.json',
+                content:encodedManifest,
+            });
 
-        const imageRes = await this.octokit.repos.createOrUpdateFileContents({
-            owner,
-            repo,
-            message: "Adding image",
-            path: 'plugin.png',
-            content:defaultRepoValues.png,
-        });
+            const imageRes = await this.octokit.repos.createOrUpdateFileContents({
+                owner,
+                repo,
+                message: "Adding image",
+                path: 'plugin.png',
+                content:defaultRepoValues.png,
+            });
+            
+            const allSuccessful = [htmlRes, cssRes, scriptRes, manifestRes, imageRes].reduce((acc, item) => {
+                const status = item.status;
+                const isSuccessfulResponse = status >= 200 && status < 400;
 
-        this.discoverRepos();
+                return acc && isSuccessfulResponse;
+            }, true);
+
+            if (!allSuccessful){
+                throw new Error("All requests did not have a successful status");
+            }
+
+            this.discoverRepos();
+        }catch(e){
+            console.log("Error creating repository", e);
+            //TODO could be improved.
+            alert("Something went wrong trying to create your project. Please try again.")
+        }
 
         return;
     }

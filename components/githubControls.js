@@ -93,6 +93,16 @@ class GithubControls extends React.Component {
             null
         );
 
+        const refreshReposButton = React.createElement('a',
+            {
+                id: 'RefreshReposButton',
+                key: 'RefreshReposButton',
+                onClick: this.props.refreshReposList,
+                title:'Refresh project list'
+            },
+            React.createElement('i', {className:'fas fa-sync-alt'}, '')
+        );
+
         const dropdown = React.createElement(
             'div',
             {
@@ -129,7 +139,7 @@ class GithubControls extends React.Component {
                                 },
                                 React.createElement('i', {className:'fas fa-caret-down'}, '')
                             ),
-                            //refreshReposButton
+                            refreshReposButton
                         ]
                     )
                 ),

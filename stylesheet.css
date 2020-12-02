@@ -124,6 +124,12 @@ h1.title {
     width:345px;
 }
 
+#RefreshReposButton{
+    position:absolute;
+    right:10px;
+    top:10px;
+}
+
 #RepoControls{
     margin-left:5px;
 }
