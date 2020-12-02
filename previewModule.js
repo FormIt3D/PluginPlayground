@@ -428,17 +428,21 @@ class PreviewModule{
     //TODO error handling.
     async discoverRepos(){
         try{
-            const repoListResult = await this.octokit.repos.listForUser({
-                username: this.currentUsername,
-            });
+            const listForUserOptions = this.octokit.repos.listForUser.endpoint.DEFAULTS;
+            const url = listForUserOptions.url.replace('{username}', this.currentUsername);
 
-            console.log(repoListResult);
+            const repoListResult = await this.octokit.request({
+                method: listForUserOptions.method,
+                url: `${url}?cacheBuster=${new Date().getTime()}`,
+                headers: {
+                    ...listForUserOptions.headers,
+                     'If-None-Match': ''
+                }
+            });
 
             const formitPluginRepos = repoListResult.data.filter((repo) => {
                 return repo.topics.indexOf('formit-plugin') > -1
             });
-
-            console.log(formitPluginRepos);
 
             const reposPromises = formitPluginRepos.map(async (repo) => {
                 try{
