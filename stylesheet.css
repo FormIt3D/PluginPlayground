@@ -14,40 +14,14 @@ html{
     overflow-x:hidden;
 }
 
-#PluginFooter{
-    background-color: aliceblue;
-    padding: 10px;
-    font-size: 14px;
-    border-top:solid 1px royalblue;
-}
-
-#PluginFooter p{
-    color: #23d160;
-    font-weight:bold;
-}
-
-#PluginFooter .fa-plug{
-    font-size: 40px;
-    color: #23d160;
-    float: left;
-    margin: 10px;
-    margin-right: 20px;
-}
-
-#PluginFooter li {
-    padding:0;
-    margin-right:20px;
-}
-
 h1.title {
     font-size: 20px !important;
     font-family: Arial !important;
     color: grey !important;
     font-weight:bold !important;
     margin-bottom: 0 !important;
-    padding: 10px !important;
+    padding: 0px 10px 10px 10px !important;
 }
-
 
 #EditorWrapper .navbar{
     margin:0;
@@ -69,14 +43,6 @@ h1.title {
 
 #HTMLEditor, #CSSEditor, #JSEditor  {
     height:30%
-}
-
-#Result{
-
-}
-
-#GitHubRoot{
-
 }
 
 #GitHubRoot .loadingMessage{
@@ -104,14 +70,14 @@ h1.title {
 #MainControls{
     text-align:center;
     border-top: solid 1px lightsteelblue;
-    border-bottom: solid 1px lightsteelblue;
-    background-color:aliceblue;
-    padding:10px;
+    padding: 30px 10px 20px 10px;
 }
 
 #MainControls a{
-    font-size:40px;
-    margin:20px;
+    font-size: 40px;
+    margin-top: 40px;
+    margin: 20px;
+    color: #4676a9;
 }
 
 #RepoControls,
@@ -173,6 +139,10 @@ h1.title {
 
 #LoginControls button i{
     margin-left: 10px;
+}
+
+#loginControls .button.is-link {
+    background-color: #4676a9;
 }
 
 #LoginButton{
