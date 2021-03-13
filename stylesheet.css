@@ -10,8 +10,6 @@ html{
 
 #PluginContainer{
     flex:1;
-    overflow-y:scroll;
-    overflow-x:hidden;
 }
 
 h1.title {
