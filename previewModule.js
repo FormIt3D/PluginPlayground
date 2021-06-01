@@ -1,4 +1,4 @@
-import { Octokit } from "https://cdn.skypack.dev/@octokit/rest";
+import { Octokit } from "https://cdn.skypack.dev/@octokit/rest@18.5.4";
 import GithubControls from "./components/githubControls.js";
 import MainControls from "./components/mainControls.js";
 import LoginControls from "./components/loginControls.js";
