@@ -8,7 +8,6 @@ class PreviewModule{
     constructor(){
         this.loginCheck();
         this.addIntervals();
-        this.addEventListeners();
 
         this.currentlyLoadedRepoData = undefined;
 
@@ -132,16 +131,6 @@ class PreviewModule{
     logout(){
         localStorage.setItem('token', '');
         this.loginCheck();
-    }
-
-    addEventListeners(){
-        document.getElementById('LearnMoreLink').addEventListener('click', () => {
-            FormItInterface.CallMethod("FormIt.OpenURL", 'https://formit3d.github.io/FormItExamplePlugins/index.html');
-        });
-
-        document.getElementById('BuildLink').addEventListener('click', () => {
-            FormItInterface.CallMethod("FormIt.OpenURL", 'https://formit3d.github.io/FormItExamplePlugins/docs/HowToBuild.html');
-        });
     }
 
     renderMainControls(){

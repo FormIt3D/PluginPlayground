@@ -6,8 +6,10 @@
     <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormIt.js"></script>
     <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormItInterface.js"></script>
     <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/PluginUtils.js"></script>
+    <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormItPluginUI.js"></script>
     <script src="https://kit.fontawesome.com/c35c0bb2dc.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+    <link rel="stylesheet" type="text/css" href="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormItPluginStyling.css">
     <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
 
     <script type="text/javascript">
@@ -25,30 +27,33 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 </head>
 <body>
+
     <div id="PluginWrapper">
         <div id='PluginContainer'>
             <h1 class='title'>Plugin Playground</h1>
+            
+            <!-- TODO: Enable this when the standard header module has improved css style targeting -->
+            <script>
+                // add the header module
+                //document.getElementById('PluginWrapper').appendChild(new FormIt.PluginUI.HeaderModule('Plugin Playground', 'See how a plugin works, customize it to your needs, and publish it to GitHub.').element);
+            </script>
+
             <div id ="LoginControls"></div>
             <div id="MainControls"></div>
             <div id="GithubRoot">
                 <div class='loadingMessage'>Finding your projects...</div>
                 <div class="control is-loading"></div>
             </div>
-            <div id="Result"><div class='pluginMessage'>Plugin goes here. Press play<i class="fas fa-play"></i>!</div></div>
-        </div>
-        <div id='PluginFooter'>
-            <i class="fas fa-plug"></i>
-            <p>Powered by FormIt JavaScript plugins</p>
-            <ul>
-                <li>
-                    <a id='LearnMoreLink' href="javascript:void(0);">Learn about plugins</a>
-                </li>
-                <li>
-                    <a id='BuildLink' href="javascript:void(0);">Build your own</a>
-                </li>
-            </ul>
+            <div id="Result"><div class='pluginMessage'>Your plugin will appear here. Press play<i class="fas fa-play"></i>!</div></div>
         </div>
     </div>
+
+    <script>
+        // add the footer module
+        let footerModule = new FormIt.PluginUI.FooterModule;
+        document.getElementById('PluginWrapper').appendChild(footerModule.element);
+    </script>
+
     <script type="module" src="previewModule.js"></script>
 </body>
 </html>

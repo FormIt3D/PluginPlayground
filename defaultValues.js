@@ -21,7 +21,7 @@ const defaultRepoValues = {
             <input id="Height" type=number value =12 />
             <label>Height</label>
         </div>
-        <input id="CreateBlockBtn" type=button value="Create Block" />
+        <input id="CreateBlockBtn" type=button value="Create Cuboid" />
         <!--Do not remove below scripts unless you know what you're doing-->
         <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormIt.js"></script>
         <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormItInterface.js"></script>
