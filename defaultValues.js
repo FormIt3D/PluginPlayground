@@ -23,9 +23,9 @@ const defaultRepoValues = {
         </div>
         <input id="CreateBlockBtn" type=button value="Create Cuboid" />
         <!--Do not remove below scripts unless you know what you're doing-->
-        <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormIt.js"></script>
-        <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormItInterface.js"></script>
-        <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/PluginUtils.js"></script>
+        <script type="text/javascript" src="https://formit3d.github.io/SharedPluginUtilities/FormIt.js"></script>
+        <script type="text/javascript" src="https://formit3d.github.io/SharedPluginUtilities/FormItInterface.js"></script>
+        <script type="text/javascript" src="https://formit3d.github.io/SharedPluginUtilities/PluginUtils.js"></script>
         <script type="text/javascript" src="plugin.js"></script>
         <script type="text/javascript">
             FormItInterface.Initialize();
