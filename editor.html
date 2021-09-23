@@ -7,15 +7,20 @@
     <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/FormItInterface.js"></script>
     <script type="text/javascript" src="https://formit3d.github.io/FormItExamplePlugins/SharedPluginFiles/PluginUtils.js"></script>
     
-    <!-- Monaco Support -->
-    <script>var require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs' } };</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/loader.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.nls.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.js"></script>
-    <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.min.css">
-    <!-- End Monaco Support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
 
-    <script type="text/javascript">
+    <!-- Monaco CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.27.0/min/vs/editor/editor.main.min.css">
+
+    <script type="module">
+        import EditorModule from './editorModule.js';
+
+        // Load Monaco using RequireJS
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.28.1/min/vs' } });
+        require(['vs/editor/editor.main.nls.min', 'vs/editor/editor.main'], 
+            // Then initialize the plugin playground editor module
+            () => new EditorModule());
+
         FormItInterface.Initialize();
     </script>
     <style type="text/css" media="screen">
@@ -81,6 +86,5 @@
             </div>
         </div>
     </div>
-    <script type="module" src="editorModule.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 import defaultRepoValues from "./defaultValues.js";
 
-class EditorModule{
+export default class EditorModule{
     constructor(){
         this.setupEditors();
         this.addEventListeners();
@@ -159,20 +159,3 @@ class EditorModule{
         }
     }
 }
-
-new EditorModule();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
