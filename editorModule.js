@@ -6,61 +6,60 @@ class EditorModule{
         this.addEventListeners();
     }
 
-    setupEditors(){
-        this.HTMLEditor = ace.edit("HTMLEditor");
-        this.CSSEditor = ace.edit("CSSEditor");
-        this.JSEditor = ace.edit("JSEditor");
-
-        this.HTMLEditor.setTheme("ace/theme/monokai");
-        this.CSSEditor.setTheme("ace/theme/monokai");
-        this.JSEditor.setTheme("ace/theme/monokai");
-
-        this.HTMLEditor.session.setMode("ace/mode/html");
-        this.CSSEditor.session.setMode("ace/mode/css");
-        this.JSEditor.session.setMode("ace/mode/javascript");
-
-        this.HTMLEditor.session.setUseWorker(false);
-        this.CSSEditor.session.setUseWorker(false);
-        this.JSEditor.session.setUseWorker(false);
+    async setupEditors(){
+        this.HTMLEditor = monaco.editor.create(document.getElementById('HTMLEditor'), {
+            theme: 'vs-dark',
+            language: 'html',
+            automaticLayout: true
+        });
+        this.CSSEditor = monaco.editor.create(document.getElementById('CSSEditor'), {
+            theme: 'vs-dark',
+            language: 'css',
+            automaticLayout: true
+        });
+        this.JSEditor = monaco.editor.create(document.getElementById('JSEditor'), {
+            theme: 'vs-dark',
+            language: 'FormItWSM',
+            automaticLayout: true
+        });
 
         const htmlContent = localStorage.getItem('currentHTMLValue') || defaultRepoValues.html;
         const cssContent = localStorage.getItem('currentCSSValue') || defaultRepoValues.css;
         const scriptContent = localStorage.getItem('currentJSValue') || defaultRepoValues.script;
 
-        this.HTMLEditor.setValue(htmlContent, 1);
-        this.CSSEditor.setValue(cssContent, 1);
-        this.JSEditor.setValue(scriptContent, 1);
+        this.HTMLEditor.setValue(htmlContent);
+        this.CSSEditor.setValue(cssContent);
+        this.JSEditor.setValue(scriptContent);
 
-        const langTools = ace.require("ace/ext/language_tools");
+        monaco.languages.register({ id: 'FormItWSM' });
 
-        const testCompleter ={
-            getCompletions: function(editor, session, pos, prefix, callback) {
-                var completions = [];
-                ["API1", "API2"].forEach(function(apiWord) {
+        //27, javascript
+        const javascriptLoader = await monaco.languages.getLanguages()[27].loader();
 
-                    completions.push({
-                        value: apiWord,
-                        meta: "this is a test tip",
+        monaco.languages.setMonarchTokensProvider('FormItWSM', javascriptLoader.language);
 
-                    });
+        const autocompleteURL = "https://formit3d.github.io/FormItExamplePlugins/docs/autocomplete.json";
+        fetch(autocompleteURL)
+            .then((response) => response.json())
+            .then((autocompleteJSON) => {
+                // Set suggestions
+                monaco.languages.registerCompletionItemProvider('FormItWSM', {
+                    provideCompletionItems() {
+                        return {
+                            suggestions: autocompleteJSON
+                        }
+                    },
+                    triggerCharacters: [' ', '.'] //  Write the character that triggers the prompt , There can be multiple 
                 });
-                callback(null, completions);
-            }
-        }
-
-        langTools.addCompleter(testCompleter);
-
-        this.JSEditor.setOptions({
-            enableBasicAutocompletion: true,
-            enableSnippets: true,
-            enableLiveAutocompletion: true
-        });
+            })
+            .catch((e) => {
+                console.error("Error fetching autocomplete suggestions!", e);
+            });
     }
 
     addEventListeners(){
         const hideShowEditor = (editor) => {
-            console.log(editor.container.parentElement);
-            editor.container.parentElement.style.display = editor.container.parentElement.style.display === 'none'
+            editor.getContainerDomNode().parentNode.style.display = editor.getContainerDomNode().parentNode.style.display === 'none'
                 ? 'block' : 'none';
         }
 
@@ -112,17 +111,17 @@ class EditorModule{
             });
         });
 
-        this.HTMLEditor.session.on('change', () => {
+        this.HTMLEditor.getModel().onDidChangeContent(() => {
             const content = this.HTMLEditor.getValue();
             localStorage.setItem('currentHTMLValue', content);
         });
 
-        this.CSSEditor.session.on('change', () => {
+        this.CSSEditor.getModel().onDidChangeContent(() => {
             const content = this.CSSEditor.getValue();
             localStorage.setItem('currentCSSValue', content);
         });
 
-        this.JSEditor.session.on('change', () => {
+        this.JSEditor.getModel().onDidChangeContent(() => {
             const content = this.JSEditor.getValue();
             localStorage.setItem('currentJSValue', content);
         });
