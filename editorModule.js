@@ -38,23 +38,23 @@ class EditorModule{
 
         monaco.languages.setMonarchTokensProvider('FormItWSM', javascriptLoader.language);
 
-        const autocompleteURL = "https://formit3d.github.io/FormItExamplePlugins/docs/autocomplete.json";
-        fetch(autocompleteURL)
-            .then((response) => response.json())
-            .then((autocompleteJSON) => {
-                // Set suggestions
-                monaco.languages.registerCompletionItemProvider('FormItWSM', {
-                    provideCompletionItems() {
-                        return {
-                            suggestions: autocompleteJSON
-                        }
-                    },
-                    triggerCharacters: [' ', '.'] //  Write the character that triggers the prompt , There can be multiple 
-                });
-            })
-            .catch((e) => {
-                console.error("Error fetching autocomplete suggestions!", e);
+        try {
+            const autocompleteURL = "https://formit3d.github.io/FormItExamplePlugins/docs/autocomplete.json",
+                response = await fetch(autocompleteURL),
+                autocompleteJSON = await response.json()
+
+            // Set suggestions
+            monaco.languages.registerCompletionItemProvider('FormItWSM', {
+                provideCompletionItems() {
+                    return {
+                        suggestions: autocompleteJSON
+                    }
+                },
+                triggerCharacters: [' ', '.'] //  Write the character that triggers the prompt , There can be multiple 
             });
+        } catch(e) {
+            console.error("Error fetching autocomplete suggestions!", e);
+        }
     }
 
     addEventListeners(){
