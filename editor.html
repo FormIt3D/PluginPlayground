@@ -22,6 +22,25 @@
             () => new EditorModule());
 
         FormItInterface.Initialize();
+
+        // Library function to get all the real property names of an object
+        Object.getPropertyNames || Object.defineProperty(Object, "getPropertyNames", {
+            value: function(obj) {
+                var propertyNames = [];
+                do {
+                    propertyNames.push.apply(propertyNames, Object.getOwnPropertyNames(obj));
+                    obj = Object.getPrototypeOf(obj);
+                } while (obj);
+
+                // get unique property names
+                obj = {};
+                for(var i = 0, len = propertyNames.length; i < len; i++) {
+                    obj[propertyNames[i]] = 1;
+                }
+
+                return Object.keys(obj).sort();
+            }
+        });
     </script>
     <style type="text/css" media="screen">
         html{
