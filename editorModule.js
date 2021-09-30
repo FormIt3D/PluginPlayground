@@ -44,7 +44,7 @@ export default class EditorModule{
 
         async function ShowAutocompletion(obj) { 
             // Disable default autocompletion for javascript
-            monaco.languages.typescript.javascriptDefaults.setCompilerOptions({ noLib: true  });
+            monaco.languages.typescript.javascriptDefaults.setCompilerOptions({ noLib: true, allowNonTsExtensions: true });
             monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
           
             // Helper function to return the monaco completion item type of a thing
