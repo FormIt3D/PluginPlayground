@@ -269,16 +269,21 @@ export default class EditorModule{
 
                     // If a JS API docs object is found, generate the output
                     if (doc.length && doc[0].params) {
-                        doc = doc[0]
+                        // Get a clone of the autocomplete object
+                        doc = JSON.parse(JSON.stringify(doc[0]))
+                        // Remove redundant parameter display from method description
+                        if (doc.documentation && doc.documentation.value) {
+                            doc.documentation.value = doc.documentation.value.split("## Parameters")[0].trim();
+                        }
                         // The dispose() method is called after the parameter helper is cancelled/closed
                         return {
                             value: {
                                 signatures: [{
                                     label: justFunc + "(" + doc.params.join(', ') + ")",
                                     parameters: doc.params.map(param => { return {label: param} }),
+                                    documentation: doc.documentation || "",
                                     activeParameter: paramPosition - 1
                                 }],
-                
                                 activeSignature: 0
                             },
                             dispose() {}
@@ -291,6 +296,7 @@ export default class EditorModule{
             });
         }
         
+        // Use autocompletion for the entire window context, not just the FormIt/WSM libraries
         ShowAutocompletion(window);
     }
 
