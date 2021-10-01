@@ -66,7 +66,7 @@ export default class EditorModule{
             }
 
 
-            // Library function to get all the real property names of an object
+            // Library function to get all the property names of an object and its prototypes
             function getObjectPropNames(obj) {
                 var propertyNames = [];
                 do {
