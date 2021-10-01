@@ -33,16 +33,16 @@ export default class EditorModule{
         this.JSEditor.setValue(scriptContent);
 
         // Try to get the autocomplete docs from the remote doxygen host
-        var autocompleteJSON = []
+        let autocompleteJSON = []
         try {
             const autocompleteURL = "https://formit3d.github.io/FormItExamplePlugins/docs/autocomplete.json",
-                response = await fetch(autocompleteURL)
-            autocompleteJSON = await response.json()
+                response = await fetch(autocompleteURL);
+            autocompleteJSON = await response.json();
         } catch(e) {
             console.error("Error fetching autocomplete suggestions!", e);
         }
 
-        async function ShowAutocompletion(obj) { 
+        async function showAutocompletion(obj) { 
             // Disable default autocompletion for javascript
             monaco.languages.typescript.javascriptDefaults.setCompilerOptions({ noLib: true, allowNonTsExtensions: true });
             monaco.languages.typescript.javascriptDefaults.setEagerModelSync(true);
@@ -63,15 +63,33 @@ export default class EditorModule{
                 }
             }
 
+
+            // Library function to get all the real property names of an object
+            function getObjectPropNames(obj) {
+                var propertyNames = [];
+                do {
+                    propertyNames.push.apply(propertyNames, Object.getOwnPropertyNames(obj));
+                    obj = Object.getPrototypeOf(obj);
+                } while (obj);
+
+                // get unique property names
+                obj = {};
+                for(var i = 0, len = propertyNames.length; i < len; i++) {
+                    obj[propertyNames[i]] = 1;
+                }
+
+                return Object.keys(obj).sort();
+            }
+
             function getActiveWord(model, position) {
                 // Split everything the user has typed on the current line up at each space, and only look at the last word
-                var last_chars = model.getValueInRange({startLineNumber: position.lineNumber, startColumn: 0, endLineNumber: position.lineNumber, endColumn: position.column});
+                let last_chars = model.getValueInRange({startLineNumber: position.lineNumber, startColumn: 0, endLineNumber: position.lineNumber, endColumn: position.column});
                 // Clean up any white space
                 while(last_chars.indexOf("  ") >= 0 || last_chars.indexOf("\t") >= 0) {
-                    last_chars = last_chars.replace(/\t/g, " ").replace(/\s\s/g, " ")
+                    last_chars = last_chars.replace(/\t/g, " ").replace(/\s\s/g, " ");
                 }
                 // What the user is currently typing (everything after the last space)
-                var words = last_chars.split(";");
+                let words = last_chars.split(";");
                 return words[words.length - 1].trim();
             }
 
@@ -85,37 +103,37 @@ export default class EditorModule{
 
                     // Return if this is not the javascript editor
                     if(model.id != '$model3') {
-                        return
+                        return;
                     }
 
                     // Get current word being typed
-                    var active_typing = getActiveWord(model, position);
+                    let active_typing = getActiveWord(model, position),
+                        // If the last character typed is a period then we need to look at member objects of obj
+                        is_member = active_typing.indexOf('.') >= 0,
+                        // Array of autocompletion results
+                        result = [],
+                        // Existing value
+                        curValue = model.getValue(),
+                        // Used for generic handling between member and non-member objects
+                        last_token = obj,
+                        // Used when building the method name
+                        prefix = '',
+                        // Split the current word in order to get the object reference
+                        parents = active_typing.split("."),
+                        // Get the last word or current word the user is typing
+                        last_word = parents[parents.length - 1];
 
-                    // If the last character typed is a period then we need to look at member objects of obj
-                    var is_member = active_typing.indexOf('.') >= 0
+                    // Get the preceding parents of the current word
+                    parents = parents.splice(0, parents.length - 1);
 
-                    // Array of autocompletion results
-                    var result = [];
-
-                    // Existing value
-                    var curValue = model.getValue();
-
-                    // Used for generic handling between member and non-member objects
-                    var last_token = obj; 
-                    var prefix = ''; 
-
-                    // Get a list of all members, and the prefix
-                    var parents = active_typing.split("."),
-                        last_word = parents[parents.length - 1]
-                        parents = parents.splice(0, parents.length - 1);
-
+                    // Get the object reference to be used to list all its methods
                     if(parents.length) {
                         last_token = obj[parents[0]];
                         prefix = parents[0]; 
                     }
 
                     // Loop through all the parents the current one will have (to generate prefix)
-                    for (var i = 1; i < parents.length; i++) { 
+                    for (let i = 1; i < parents.length; i++) { 
                         if (last_token.hasOwnProperty(parents[i])) { 
                             prefix += '.' + parents[i]; 
                             last_token = last_token[parents[i]];
@@ -136,12 +154,14 @@ export default class EditorModule{
                     }
 
                     // Get all the keys of the object
-                    var all_token_names = Object.getPropertyNames(last_token);
+                    let all_token_names = getObjectPropNames(last_token);
 
                     // Get all the child properties of the last token
-                    for (var prop_index in all_token_names) { 
-                        var prop = all_token_names[prop_index],
-                            propRegEx = new RegExp(prop + '\\W')
+                    for (let prop_index in all_token_names) { 
+                        // Get the value of the property
+                        let prop = all_token_names[prop_index],
+                            // Get a regex lookup object using the property name
+                            propRegEx = new RegExp(prop + '\\W');
                         // Do not show properites that begin with "__"
                         if (!prop.startsWith("__") && 
                             // and the property contains the word user is typing in
@@ -150,7 +170,7 @@ export default class EditorModule{
                             !propRegEx.test(curValue)) {
 
                             // Get the detail type (try-catch) incase object does not have prototype 
-                            var details = ''; 
+                            let details = ''; 
                             try { 
                                 details = last_token[prop].__proto__.constructor.name; 
                             } catch (e) { 
@@ -158,20 +178,20 @@ export default class EditorModule{
                                 try {
                                     details = typeof last_token[prop]; 
                                 } catch(e2) {
-                                    details = "Object"
+                                    details = "Object";
                                 }
                             }
 
                             // Filter existing completion items by this property
-                            var filtComp = autocompleteJSON.filter(function(itemComp) {
+                            let filtComp = autocompleteJSON.filter(function(itemComp) {
                                 return itemComp.label == prefix + prop;
                             });
 
                             // If existing JS API docs were found
                             if(filtComp.length) {
-                                for(var compIndex in filtComp) {
+                                for(let compIndex in filtComp) {
                                     // Clone the next JS API docs object
-                                    var nextComp = JSON.parse(JSON.stringify(filtComp[compIndex]));
+                                    let nextComp = JSON.parse(JSON.stringify(filtComp[compIndex]));
                                     // Set the property type/kind
                                     nextComp.kind = getType(details.toLowerCase(), is_member);
                                     // Set the characters that will complete this lookup
@@ -180,8 +200,9 @@ export default class EditorModule{
                                     if (details.toLowerCase() == 'function') { 
                                         nextComp.commitCharacters.push("(");
                                     }
-                                    // Set the insert text and label to the property name
+                                    // Set the insert text
                                     nextComp.insertText = prop;
+                                    // Assign the property name as the parameter label
                                     nextComp.label = prop;
                                     // Push the object to the result array
                                     result.push(nextComp);
@@ -189,7 +210,7 @@ export default class EditorModule{
                             } else {
 
                                 // Create a standard/NON-JS-API completion object
-                                var to_push = {
+                                let to_push = {
                                     label: prop,
                                     kind: getType(details.toLowerCase(), is_member), 
                                     detail: details,     
@@ -227,13 +248,15 @@ export default class EditorModule{
                 provideSignatureHelp: function(model, position) {
 
                     // Get current word being typed
-                    var active_typing = getActiveWord(model, position);
-
-                    // Get function name with library prefix (if any)
-                    var funcNames = [...active_typing.matchAll(/([\w_\.]*?)\s*?\(/ig)],
+                    let active_typing = getActiveWord(model, position),
+                        // Get function name with library prefix (if any)
+                        funcNames = [...active_typing.matchAll(/([\w_\.]*?)\s*?\(/ig)],
+                        // Lookup how many argument closures ")" in order to calculate which parameter position the user is at
                         parenClose = [...active_typing.matchAll(/\)/g)].length,
+                        // Use the number of argument closures to get the correct function name being looked up
                         funcName = funcNames.length ? funcNames[funcNames.length - 1 - (parenClose)][1] : false,
-                        justFunc = funcName ? funcName.split('.') : funcName
+                        // Get just the function name (not the prefix libraries)
+                        justFunc = funcName ? funcName.split('.') : funcName;
 
                     // Return false if no method was found
                     if (funcName === false) {
@@ -244,18 +267,18 @@ export default class EditorModule{
                     justFunc = justFunc.pop();
 
                     // Get delimiters
-                    var delimRaw = active_typing;
+                    let delimRaw = active_typing;
 
                     // Remove all function names from the raw string
-                    for (var funcIndex in funcNames) {
+                    for (let funcIndex in funcNames) {
                         delimRaw = delimRaw.replace(new RegExp(funcNames[funcIndex][1], "g"), '');
                     }
 
                     // Clean out any word characters and the () function calls
-                    var delimiters = delimRaw.replace(/\(\)/g, '').replace(/[\w\s]/g, '');
+                    let delimiters = delimRaw.replace(/\(\)/g, '').replace(/[\w\s]/g, '');
 
                     // Get parameter position
-                    var paramPosition = delimiters.substr(delimiters.lastIndexOf('(')).length
+                    let paramPosition = delimiters.substr(delimiters.lastIndexOf('(')).length
 
                     // Return false if no parameter position can be matched
                     if(paramPosition === 0) {
@@ -263,14 +286,14 @@ export default class EditorModule{
                     }
 
                     // Get the JS API docs object for this function parameter helper
-                    var doc = autocompleteJSON.filter(function(itemComp) {
+                    let doc = autocompleteJSON.filter(function(itemComp) {
                         return itemComp.label == funcName;
                     });
 
                     // If a JS API docs object is found, generate the output
                     if (doc.length && doc[0].params) {
                         // Get a clone of the autocomplete object
-                        doc = JSON.parse(JSON.stringify(doc[0]))
+                        doc = JSON.parse(JSON.stringify(doc[0]));
                         // Remove redundant parameter display from method description
                         if (doc.documentation && doc.documentation.value) {
                             doc.documentation.value = doc.documentation.value.split("## Parameters")[0].trim();
@@ -297,7 +320,7 @@ export default class EditorModule{
         }
         
         // Use autocompletion for the entire window context, not just the FormIt/WSM libraries
-        ShowAutocompletion(window);
+        showAutocompletion(window);
     }
 
     addEventListeners(){
