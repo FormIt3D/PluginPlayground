@@ -24,6 +24,8 @@ export default class EditorModule{
             parameterHints: true
         });
 
+        let jsEditorModelID = this.JSEditor.getModel().id;
+
         const htmlContent = localStorage.getItem('currentHTMLValue') || defaultRepoValues.html;
         const cssContent = localStorage.getItem('currentCSSValue') || defaultRepoValues.css;
         const scriptContent = localStorage.getItem('currentJSValue') || defaultRepoValues.script;
@@ -102,7 +104,7 @@ export default class EditorModule{
                 provideCompletionItems: function(model, position, token) {
 
                     // Return if this is not the javascript editor
-                    if(model.id != '$model3') {
+                    if(model.id != jsEditorModelID) {
                         return;
                     }
 
