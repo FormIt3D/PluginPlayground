@@ -61,13 +61,6 @@ class PreviewModule{
     }
 
     loginCheck(){
-        try {
-            window.localStorage = window.localStorage;
-        } catch(e) {
-            alert('There was a problem accessing local storage. Plugin Playground may not work.');
-            return;
-        }
-
         let token = localStorage.getItem('token');
         let tokenParams = new URLSearchParams(token);
         let access_token;
