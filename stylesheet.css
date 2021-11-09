@@ -219,3 +219,26 @@ h1.title {
 .pluginBadge + h1 {
     margin-left:25px;
 }
+
+#NoAccess {
+    display: none;
+}
+
+#NoAccess div:first-child {
+    width: 20%;
+    height: 40px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px 20px 0px 20px;
+}
+
+#NoAccess div:nth-child(2) {
+    width: 75%;
+    display: inline-block;
+}
+
+.alertIcon {
+    background-color: gold;
+    -webkit-mask: url(images/alert.svg) no-repeat center;
+    mask: url(images/alert.svg) no-repeat center;
+}
