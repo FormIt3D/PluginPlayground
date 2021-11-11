@@ -96,9 +96,9 @@ export default class EditorModule{
             }
 
             // Register object that will return autocomplete items 
-            monaco.languages.registerCompletionItemProvider('*', {
-                // Run this function when the period or space is typed
-                triggerCharacters: ['.', ' '],
+            monaco.languages.registerCompletionItemProvider('javascript', {
+                // Run this function when the period or space is typed in addition to any alphanumeric character
+                triggerCharacters: ['.'],
 
                 // Function to generate autocompletion results
                 provideCompletionItems: function(model, position, token) {
@@ -123,7 +123,9 @@ export default class EditorModule{
                         // Split the current word in order to get the object reference
                         parents = active_typing.split("."),
                         // Get the last word or current word the user is typing
-                        last_word = parents[parents.length - 1];
+                        last_word = parents[parents.length - 1],
+                        // Get the last word search regex
+                        wordRegEx = new RegExp(last_word, 'i');
 
                     // Get the preceding parents of the current word
                     parents = parents.splice(0, parents.length - 1);
@@ -161,15 +163,10 @@ export default class EditorModule{
                     // Get all the child properties of the last token
                     for (let prop_index in all_token_names) { 
                         // Get the value of the property
-                        let prop = all_token_names[prop_index],
-                            // Get a regex lookup object using the property name
-                            propRegEx = new RegExp(prop + '\\W');
+                        let prop = all_token_names[prop_index]
                         // Do not show properites that begin with "__"
                         if (!prop.startsWith("__") && 
-                            // and the property contains the word user is typing in
-                            (last_word == "" || prop.indexOf(last_word) >= 0) && 
-                            // and the property was not found in Monaco's built-in word suggestion
-                            !propRegEx.test(curValue)) {
+                            wordRegEx.test(prop)) {
 
                             // Get the detail type (try-catch) incase object does not have prototype 
                             let details = ''; 
