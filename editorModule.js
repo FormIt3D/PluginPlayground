@@ -1,5 +1,9 @@
 import defaultRepoValues from "./defaultValues.js";
 
+function replaceAll(originalString, find, replace) {
+    return originalString.replace(new RegExp(find, 'g'), replace);
+};
+
 export default class EditorModule{
     constructor(){
         this.setupEditors();
@@ -380,23 +384,27 @@ export default class EditorModule{
         });
     }
 
+    //This cleans out some unwanted APIs that get logged.
+    //Then wraps APIs in async/await
+    //Then also adds a little more syntax helpers.
     cleanJournal(journalRaw){
         let encodedJournal = encodeURIComponent(journalRaw);
 
-        encodedJournal = encodedJournal.replace('WSM.APILoadFromFile(mainHistID%2C%20%5C%22%2Ftmp%2Fjournal.dat%5C%22)%3B', '');
-        encodedJournal = encodedJournal.replaceAll('FormIt.SectionPlanes.GetInstances()%3B%5Cn%20%20%20%20', '');
-        encodedJournal = encodedJournal.replaceAll('FormIt.SectionPlanes.GetPlanes()%3B%5Cn%20%20%20%20', '');
+        encodedJournal = encodedJournal.replace('WSM.APILoadFromFile(mainHistID%2C%20%5C%22.dat%5C%22)%3B', '');
+        encodedJournal = replaceAll(encodedJournal, 'FormIt.SectionPlanes.GetInstances()%3B%5Cn%20%20%20%20', '');
+        encodedJournal = replaceAll(encodedJournal, 'FormIt.SectionPlanes.GetPlanes()%3B%5Cn%20%20%20%20', '');
+
         let journal = decodeURIComponent(encodedJournal);
 
-        journal = journal.replaceAll('"','');
-        journal =journal.replace('var result = true;', '');
-        journal =journal.replace('return result;', '');
-        journal =journal.replace('WSM.APIGetActiveHistory();', '0;');
+        journal = replaceAll(journal, '"','');
+        journal = journal.replace('var result = true;', '');
+        journal = journal.replace('return result;', '');
+        journal = journal.replace('WSM.APIGetActiveHistory();', '0;');
         journal = journal.replace(/\\n/g, '\r\n');
         journal = journal.replace('function runtest', 'async function runJournal');
         journal = journal.replace(/(^[ \t]*\n)/gm, '');
-        journal = journal.replaceAll('WSM.', 'await WSM.');
-        journal = journal.replaceAll('FormIt.', 'await FormIt.');
+        journal = replaceAll(journal, 'WSM.', 'await WSM.');
+        journal = replaceAll(journal, 'FormIt.', 'await FormIt.');
 
         journal += '\r\n\r\nrunJournal();'
 

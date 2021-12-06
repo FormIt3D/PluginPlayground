@@ -25,21 +25,13 @@ PluginPlayground.ShowAuthorizeDialog = function(){
 //FormIt.Commands.RegisterJSCommand("PluginPlayground.ShowAuthorizeDialog");
 
 PluginPlayground.StartJournaling = function(){
+    //in future may want to enable specific journal types.
     //var journalTypes = ["WSM", "WSMReadOnly", "WSMUtils", "WSMInferenceEngine", "WSMJournalPick", "WSMTools", "WSMToolsPicking", "WSMToolsConcrete", "WSMToolsReadOnly", "WSMToolsTempRender", "FormIt", "FormItGroupEditing", "FormItCameraUpdated", "FormItInputEvents"];
-    var journalTypes = ["WSM", "FormIt"];
-    var journalFileLoc = encodeURI("/tmp/journal.js");
-
-    Module.ccall("FormItCore_DeleteFile", "int", ["string"], [journalFileLoc]);
-    Module.FS_createDataFile("", journalFileLoc, "", true, true, true);
-    WSM.APIEnableJournaling(FormIt.Model.GetHistoryID(), journalFileLoc);
-    WSM.APIEnableJournalingTypes(journalTypes);
+    //var journalTypes = ["WSM", "FormIt"];
+    WSM.APIEnableJournalingToString(FormIt.Model.GetHistoryID());
+    //WSM.APIEnableJournalingTypes(journalTypes);
 }
 
 PluginPlayground.StopJournaling = function(){
-    var journalFileLoc = encodeURI("/tmp/journal.js");
-
-    WSM.APIDisableJournaling();
-    const contents = FS.readFile(journalFileLoc, { encoding: 'utf8' });
-
-    return contents;
+    return WSM.APIDisableJournaling();
 }
