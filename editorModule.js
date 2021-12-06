@@ -384,6 +384,9 @@ export default class EditorModule{
         });
     }
 
+    //This cleans out some unwanted APIs that get logged.
+    //Then wraps APIs in async/await
+    //Then also adds a little more syntax helpers.
     cleanJournal(journalRaw){
         let encodedJournal = encodeURIComponent(journalRaw);
 
