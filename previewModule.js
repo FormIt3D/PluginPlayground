@@ -61,7 +61,17 @@ class PreviewModule{
     }
 
     loginCheck(){
-        let token = localStorage.getItem('token');
+        let token;
+        try {
+            token = localStorage.getItem('token');
+        } catch(e) {
+            document.getElementById('LoginControls').style.display = "none";
+            document.getElementById('MainControls').style.display = "none";
+            document.getElementById('GithubRoot').style.display = "none";
+            document.getElementById('Result').style.display = "none";
+            document.getElementById('NoAccess').style.display = "block";
+            return;
+        }
         let tokenParams = new URLSearchParams(token);
         let access_token;
 
