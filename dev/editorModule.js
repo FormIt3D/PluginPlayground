@@ -29,33 +29,26 @@ export default class EditorModule{
             parameterHints: true
         });
 
-        const wordWrapID = monaco.editor.EditorOptions.wordWrap.id;
-        this.HTMLEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
-            this.HTMLEditor.updateOptions({ 
-                wordWrap: this.HTMLEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
-            });
-        });
+        const wordWrapInput = document.getElementById('wordWrap'),
+            wordWrapID = monaco.editor.EditorOptions.wordWrap.id,
+            wordWrapUpdateCallback = () => {
+                const wordWrapEnabled = this.HTMLEditor.getOption(wordWrapID) == 'on',
+                    wordWrapOption = wordWrapEnabled ? 'off' : 'on',
+                    newEditorOptions = {
+                        wordWrap: wordWrapOption
+                    };
+                this.HTMLEditor.updateOptions(newEditorOptions);
+                this.CSSEditor.updateOptions(newEditorOptions);
+                this.JSEditor.updateOptions(newEditorOptions);
 
-        this.CSSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
-            this.CSSEditor.updateOptions({ 
-                wordWrap: this.CSSEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
-            });
-        });
-
-        this.JSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
-            this.JSEditor.updateOptions({ 
-                wordWrap: this.JSEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
-            });
-        });
-
-        document.getElementById('wordWrap').addEventListener('change', function () {
-            const options = { 
-                wordWrap: this.checked ? 'on' : 'off' 
+                wordWrapInput.checked = !wordWrapEnabled;
             };
-            that.HTMLEditor.updateOptions(options);
-            that.CSSEditor.updateOptions(options);
-            that.JSEditor.updateOptions(options);
-        });
+
+        this.HTMLEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, wordWrapUpdateCallback);
+        this.CSSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, wordWrapUpdateCallback);
+        this.JSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, wordWrapUpdateCallback);
+
+        wordWrapInput.addEventListener('click', wordWrapUpdateCallback);
 
         let jsEditorModelID = this.JSEditor.getModel().id;
 
