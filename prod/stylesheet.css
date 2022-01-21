@@ -1,0 +1,244 @@
+html{
+    overflow:hidden !important;
+}
+
+#PluginWrapper{
+    display:flex;
+    flex-direction: column;
+    height:100%;
+}
+
+#PluginContainer{
+    flex:1;
+}
+
+h1.title {
+    font-size: 20px !important;
+    font-family: Arial !important;
+    color: grey !important;
+    font-weight:bold !important;
+    margin-bottom: 0 !important;
+    padding: 0px 10px 10px 10px !important;
+}
+
+#EditorWrapper .navbar{
+    margin:0;
+    padding-left:10px;
+}
+
+#EditorWrapper .navbar ul li{
+    display:inline-block;
+}
+
+#ButtonWrapper {
+    padding:20px;
+}
+
+#EditCode,
+#Login{
+    width:100%;
+}
+
+#HTMLEditor, #CSSEditor, #JSEditor  {
+    height:30%
+}
+
+#GitHubRoot .loadingMessage{
+    text-align: center;
+}
+
+#GitHubRoot .control.is-loading{
+    font-size:45px;
+    width: 63%;
+    height: 100px;
+}
+
+#GitHubContent .control.is-loading{
+    font-size: 28px;
+    width: 59%;
+    height: 55px;
+}
+
+#GitHubContent{
+    background-color:aliceblue;
+    border-bottom: solid 1px lightsteelblue;
+    padding:10px;
+}
+
+#MainControls{
+    text-align:center;
+    border-top: solid 1px lightsteelblue;
+    padding: 30px 10px 20px 10px;
+}
+
+#MainControls a{
+    font-size: 40px;
+    margin-top: 40px;
+    margin: 20px;
+    color: #4676a9;
+}
+
+#RepoControls,
+#ProjectDD {
+    display:inline-block;
+}
+
+#ProjectDD .dropdown-menu,
+#ProjectDD button{
+    width:345px;
+}
+
+#RefreshReposButton{
+    position:absolute;
+    right:10px;
+    top:10px;
+}
+
+#RepoControls{
+    margin-left:5px;
+}
+
+#RepoControls a {
+    padding: 8px 5px;
+    display: inline-block;
+}
+
+#CreateControls{
+    margin-bottom:10px;
+}
+
+#CreateControls input{
+    width:305px;
+}
+
+#CreateControls i{
+    font-size: 22px;
+    padding: 10px;
+}
+
+#Result .pluginMessage{
+    padding:10px;
+    text-align:center;
+}
+
+#Result .pluginMessage i{
+    vertical-align: middle;
+    margin: 10px;
+}
+
+#LoginControls{
+    border-top: solid 1px lightsteelblue;
+    padding:10px;
+}
+
+#LoginControls button{
+    width:100%;
+}
+
+#LoginControls button i{
+    margin-left: 10px;
+}
+
+#loginControls .button.is-link {
+    background-color: #4676a9;
+}
+
+#LoginButton{
+    width:100%;
+}
+
+#UserName{
+    float:left;
+    padding:5px;
+}
+
+#RefreshReposButton{
+    right: 10px;
+    position: absolute;
+}
+
+.dropdown-item:hover{
+    background-color: aliceblue;
+    cursor:pointer;
+}
+
+.repoName{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.repoDescription{
+    font-size:10px;
+    color:#555;
+}
+
+.dropdown-item.isLoaded {
+    border:solid 1px #ccc;
+    font-weight:bold;
+    font-size:14px;
+    background-color:lightyellow;
+}
+.dropdown-item.isLoaded .repoName {
+    color:black;
+}
+
+.repoControls{
+    position: absolute;
+    top:10px;
+    right:10px;
+}
+
+.repoControls a{
+    margin-left:5px;
+}
+
+.noProjects{
+    padding:10px;
+    text-align:center;
+}
+
+.pluginBadge {
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    width: 60px;
+    height: 60px;
+    transform: rotate(45deg);
+    background: #23d160;
+}
+
+.pluginBadge .fa-plug{
+    transform: rotate(-45deg);
+    color: white;
+    position: absolute;
+    top: 21px;
+    font-size: 18px;
+    right: 5px;
+}
+
+.pluginBadge + h1 {
+    margin-left:25px;
+}
+
+#NoAccess {
+    display: none;
+}
+
+#NoAccess div:first-child {
+    width: 20%;
+    height: 40px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px 20px 0px 20px;
+}
+
+#NoAccess div:nth-child(2) {
+    width: 75%;
+    display: inline-block;
+}
+
+.alertIcon {
+    background-color: gold;
+    -webkit-mask: url(images/alert.svg) no-repeat center;
+    mask: url(images/alert.svg) no-repeat center;
+}
