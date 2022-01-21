@@ -11,6 +11,7 @@ export default class EditorModule{
     }
 
     async setupEditors(){
+        const that = this;
         this.HTMLEditor = monaco.editor.create(document.getElementById('HTMLEditor'), {
             theme: 'vs-dark',
             language: 'html',
@@ -32,19 +33,28 @@ export default class EditorModule{
         this.HTMLEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
             this.HTMLEditor.updateOptions({ 
                 wordWrap: this.HTMLEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
-            })
+            });
         });
 
         this.CSSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
             this.CSSEditor.updateOptions({ 
                 wordWrap: this.CSSEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
-            })
+            });
         });
 
         this.JSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
             this.JSEditor.updateOptions({ 
                 wordWrap: this.JSEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
-            })
+            });
+        });
+
+        document.getElementById('wordWrap').addEventListener('change', function () {
+            const options = { 
+                wordWrap: this.checked ? 'on' : 'off' 
+            };
+            that.HTMLEditor.updateOptions(options);
+            that.CSSEditor.updateOptions(options);
+            that.JSEditor.updateOptions(options);
         });
 
         let jsEditorModelID = this.JSEditor.getModel().id;
