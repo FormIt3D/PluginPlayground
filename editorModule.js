@@ -28,6 +28,25 @@ export default class EditorModule{
             parameterHints: true
         });
 
+        const wordWrapID = monaco.editor.EditorOptions.wordWrap.id;
+        this.HTMLEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
+            this.HTMLEditor.updateOptions({ 
+                wordWrap: this.HTMLEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
+            })
+        });
+
+        this.CSSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
+            this.CSSEditor.updateOptions({ 
+                wordWrap: this.CSSEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
+            })
+        });
+
+        this.JSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, () => {
+            this.JSEditor.updateOptions({ 
+                wordWrap: this.JSEditor.getOption(wordWrapID) == 'on' ? 'off' : 'on' 
+            })
+        });
+
         let jsEditorModelID = this.JSEditor.getModel().id;
 
         const htmlContent = localStorage.getItem('currentHTMLValue') || defaultRepoValues.html;
