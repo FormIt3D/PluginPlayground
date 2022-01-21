@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Github login finished</title>
+</head>
+    <body>
+        <div>
+            <a>This page should automatically close. If it doesn't, please close and return to the plugin.</a>
+        </div>
+        <script>
+            const queryParams = new URLSearchParams(location.search);
+            if (queryParams.has("token")){
+                const token = queryParams.get("token");
+                localStorage.setItem('token', token);
+
+                if (navigator.userAgent.indexOf('QtWebEngine') > -1 ){
+                    window.location.href = 'preview.html';
+                }
+                else{
+                    window.close();
+                }
+            }else{
+                alert("No github token found. Please reach out to FormIt team.");
+            }
+        </script>
+    </body>
+</html>
