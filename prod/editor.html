@@ -35,6 +35,8 @@
         #Nav{
             background-color: #272822;
             padding: 10px;
+            display: inline-block;
+            width: 100%;
         }
 
         #Run {
@@ -58,6 +60,16 @@
             background-color: #555 !important;
         }
 
+        #wordWrapContainer {
+            float: right;
+            margin: 10px;
+            color: white;
+        }
+
+        #wordWrapContainer #wordWrap {
+            margin-right: 10px;
+        }
+
     </style>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
@@ -73,6 +85,9 @@
             <button id="Start" class="button is-danger">Start recording</button>
             <button id="Stop" class="button is-danger">Stop recording</button>
             <!--<button id="Run" class="button is-link">Run!</button>-->
+            <span id="wordWrapContainer">
+                <input type="checkbox" id="wordWrap"/><label for="wordWrap">Word Wrap</label>
+            </span>
         </div>
         <div class="columns is-gapless is-mobile">
             <div class="column">
