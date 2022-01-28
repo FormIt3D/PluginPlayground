@@ -5,7 +5,17 @@ function replaceAll(originalString, find, replace) {
 };
 
 export default class EditorModule{
+    settings = {
+        wordWrap: null,
+        editors: {
+            html: null,
+            css: null,
+            js: null
+        }
+    }
+
     constructor(){
+        this.readSettings();
         this.setupEditors();
         this.addEventListeners();
     }
@@ -42,6 +52,8 @@ export default class EditorModule{
                 this.JSEditor.updateOptions(newEditorOptions);
 
                 wordWrapInput.checked = !wordWrapEnabled;
+                this.settings.wordWrap = !wordWrapEnabled;
+                this.writeSettings();
             };
 
         this.HTMLEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, wordWrapUpdateCallback);
@@ -49,6 +61,49 @@ export default class EditorModule{
         this.JSEditor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.KEY_Z, wordWrapUpdateCallback);
 
         wordWrapInput.addEventListener('click', wordWrapUpdateCallback);
+        // Reading Settings
+        if (this.settings) {
+            // Updating WordWrap CheckBox
+            if (this.settings.wordWrap !== null) {
+                wordWrapInput.checked = this.settings.wordWrap;
+                const newEditorOptions = {
+                    wordWrap: this.settings.wordWrap
+                };
+                this.HTMLEditor.updateOptions(newEditorOptions);
+                this.CSSEditor.updateOptions(newEditorOptions);
+                this.JSEditor.updateOptions(newEditorOptions);
+            }
+
+            // Updating HTML Editor
+            if (this.settings.editors.html !== null) {
+                if (this.settings.editors.html) {
+                    document.getElementById("HTMLButton").classList.add('is-active');
+                    this.hideShowEditor(this.HTMLEditor);
+                } else {
+                    document.getElementById("HTMLButton").classList.remove('is-active');
+                }
+            }
+
+            // Updating CSS Editor
+            if (this.settings.editors.css !== null) {
+                if (this.settings.editors.css) {
+                    document.getElementById("CSSButton").classList.add('is-active');
+                    this.hideShowEditor(this.CSSEditor);
+                } else {
+                    document.getElementById("CSSButton").classList.remove('is-active');
+                }
+            }
+
+            // Updating JS Editor
+            if (this.settings.editors.js !== null) {
+                if (this.settings.editors.js) {
+                    document.getElementById("JSButton").classList.add('is-active');
+                    this.hideShowEditor(this.JSEditor);
+                } else {
+                    document.getElementById("JSButton").classList.remove('is-active');
+                }
+            }
+        }
 
         let jsEditorModelID = this.JSEditor.getModel().id;
 
@@ -343,30 +398,36 @@ export default class EditorModule{
                 }
             });
         }
-        
+
         // Use autocompletion for the entire window context, not just the FormIt/WSM libraries
         showAutocompletion(window);
     }
 
-    addEventListeners(){
-        const hideShowEditor = (editor) => {
-            editor.getContainerDomNode().parentNode.style.display = editor.getContainerDomNode().parentNode.style.display === 'none'
-                ? 'block' : 'none';
-        }
+    hideShowEditor(editor) {
+        editor.getContainerDomNode().parentNode.style.display = editor.getContainerDomNode().parentNode.style.display === 'none'
+            ? 'block' : 'none';
+    }
 
+    addEventListeners(){
         document.getElementById("HTMLButton").addEventListener("click", (e) => {
             e.target.classList.toggle("is-active");
-            hideShowEditor(this.HTMLEditor);
+            this.settings.editors.html = e.target.classList.contains("is-active");
+            this.writeSettings();
+            this.hideShowEditor(this.HTMLEditor);
         });
 
         document.getElementById("JSButton").addEventListener("click", (e) => {
             e.target.classList.toggle("is-active");
-            hideShowEditor(this.JSEditor);
+            this.settings.editors.js = e.target.classList.contains("is-active");
+            this.writeSettings();
+            this.hideShowEditor(this.JSEditor);
         });
 
         document.getElementById("CSSButton").addEventListener("click", (e) => {
             e.target.classList.toggle("is-active");
-            hideShowEditor(this.CSSEditor);
+            this.settings.editors.css = e.target.classList.contains("is-active");
+            this.writeSettings();
+            this.hideShowEditor(this.CSSEditor);
         });
 
         const startButton = document.getElementById("Start");
@@ -432,6 +493,23 @@ export default class EditorModule{
 
         if (window.confirm("Do you want to replace script with journal?")) { 
             this.JSEditor.setValue(journal);
+        }
+    }
+
+    readSettings() {
+        if (window.localStorage) {
+            if (window.localStorage.getItem('settings')) {
+                const settings = JSON.parse(window.localStorage.getItem('settings'));
+                if (settings) {
+                    this.settings = settings;
+                }
+            }
+        }
+    }
+
+    writeSettings() {
+        if (window.localStorage) {
+            window.localStorage.setItem('settings', JSON.stringify(this.settings));
         }
     }
 }
