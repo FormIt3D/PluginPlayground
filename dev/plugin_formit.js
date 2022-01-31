@@ -6,7 +6,8 @@ PluginPlayground.ShowDialog = function(){
         "DialogBox": "PLUGINLOCATION/editor.html",
         "DialogBoxType": "Window",
         "Settings": {
-            "EnableNewWindowLinks": true
+            "EnableNewWindowLinks": true,
+            "SizePositionRestored": true
         },
         "ID": "Plugin_Playground"
     };
