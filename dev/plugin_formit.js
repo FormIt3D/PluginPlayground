@@ -8,7 +8,7 @@ PluginPlayground.ShowDialog = function(){
         "Settings": {
             "EnableNewWindowLinks": true
         },
-        "PluginID": "Plugin_Playground"
+        "ID": "Plugin_Playground"
     };
 
     FormIt.CreateDialogBox(JSON.stringify(dialogParams));
