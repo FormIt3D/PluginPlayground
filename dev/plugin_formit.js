@@ -4,10 +4,12 @@ PluginPlayground.ShowDialog = function(){
     var dialogParams = {
         "PluginName": "Plugin Playground Code Editor",
         "DialogBox": "PLUGINLOCATION/editor.html",
-        "DialogBoxType": "Modeless",
+        "DialogBoxType": "Window",
         "Settings": {
-            "EnableNewWindowLinks": true
-        }
+            "EnableNewWindowLinks": true,
+            "SizePositionRestored": true
+        },
+        "ID": "Plugin_Playground"
     };
 
     FormIt.CreateDialogBox(JSON.stringify(dialogParams));
