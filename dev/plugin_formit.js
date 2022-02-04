@@ -4,7 +4,7 @@ PluginPlayground.ShowDialog = function(){
     var dialogParams = {
         "PluginName": "Plugin Playground Code Editor",
         "DialogBox": "PLUGINLOCATION/editor.html",
-        "DialogBoxType": "Window",
+        "DialogBoxType": "Modeless",
         "Settings": {
             "EnableNewWindowLinks": true,
             "SizePositionRestored": true
